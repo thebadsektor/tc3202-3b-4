@@ -1,0 +1,114 @@
+/* General Page Styles */
+.landing-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #E5F0FA;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header Styles */
+  .landing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #c2d8b9;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .user-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #c69df3;
+    border-radius: 50%;
+  }
+  
+  .menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .dropdown-menu{
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 150px;
+    z-index: 1000;
+  }
+
+  .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown-menu li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .dropdown-menu li:hover {
+    background: #f0f0f0;
+  }
+  
+  .dropdown-menu .logout {
+    color: red;
+    font-weight: bold;
+  }
+
+  /* Main Content Layout */
+  .landing-main {
+    display: flex;
+    height: 100%;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  /* Left Main Box */
+  .main-box {
+    flex: 3;
+    background: #E4F0D0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    flex: 1;
+    background: #dcdcdc;
+    border-radius: 10px;
+  }
+  
+  /* Buttons */
+  .action-button {
+    background: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  
+  .action-button:hover {
+    background: #ddd;
+  }
+  
