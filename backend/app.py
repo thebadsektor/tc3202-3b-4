@@ -6,11 +6,10 @@ from PIL import Image
 import io
 import traceback
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
-
-from flask_cors import CORS
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ✅ Log TensorFlow version to check compatibility
 print(f"✅ TensorFlow Version: {tf.__version__}")
@@ -36,7 +35,7 @@ CLASS_NAMES = [
 ]
 
 # ✅ Load model
-MODEL_PATH = "D:/ayoko na/plant-identification-app/backend/model/plant_identification_model.h5"
+MODEL_PATH = "D:/ayoko na/plant-identification-app/tc3202-3b-4/backend/model/plant_identification_model.h5"
 
 try:
     if not os.path.exists(MODEL_PATH):
@@ -112,6 +111,19 @@ def predict():
         print(f"❌ Error in /predict route: {str(e)}")
         print(traceback.format_exc())
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
+
+# ✅ Login route
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    
+    # Simple hardcoded authentication (replace with proper authentication in production)
+    if username == "admin" and password == "password":
+        return jsonify({"status": "success", "message": "Login successful"}), 200
+    else:
+        return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
 # ✅ Health check route
 @app.route("/health", methods=["GET"])
