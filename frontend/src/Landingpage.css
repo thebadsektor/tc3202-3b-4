@@ -170,6 +170,7 @@ body, html {
   color: red;
   font-weight: bold;
   margin-top: 10px;
+<<<<<<< HEAD
 }
 /* Add these styles to your Landingpage.css file */
 
@@ -226,4 +227,6 @@ body, html {
   background-color: #f9f9f9;
   border-radius: 8px;
   margin: 20px 0;
+=======
+>>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 }

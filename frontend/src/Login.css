@@ -18,7 +18,11 @@ body {
   align-items: center;
   width: 400px;
   height: 600px;
+<<<<<<< HEAD
   background-color: #ffffff;
+=======
+  background-color: #e4f0d0;
+>>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -81,7 +85,11 @@ body {
   top: 50%;
   width: 40%;
   height: 1px;
+<<<<<<< HEAD
   background-color: #000000;
+=======
+  background-color: #ccc;
+>>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 }
 
 .or-divider::before {
@@ -93,11 +101,19 @@ body {
 }
 
 .or-divider span {
+<<<<<<< HEAD
   background-color: #ffffff;
   padding: 0 10px;
   position: relative;
   z-index: 1;
   color: #030303;
+=======
+  background-color: #e4f0d0;
+  padding: 0 10px;
+  position: relative;
+  z-index: 1;
+  color: #666;
+>>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 }
 
 .fb-button,
