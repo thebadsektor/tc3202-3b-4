@@ -78,7 +78,7 @@ body, html {
 
 .landing-main {
   display: flex;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
   padding: 20px;
   gap: 30px;
   position: relative;
@@ -95,7 +95,6 @@ body, html {
   width: 45%;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-  overflow-y: auto; /* Makes the sidebar scrollable */
   overflow-x: hidden;
 }
 
@@ -182,15 +181,6 @@ body, html {
 }
 /* Add these styles to your Landingpage.css file */
 
-.plant-info-container {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f5f8f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-height: 500px;
-  overflow-y: auto;
-}
 
 .plant-info-container h2 {
   color: #2e7d32;

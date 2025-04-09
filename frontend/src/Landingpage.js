@@ -1,9 +1,10 @@
 // src/Landingpage.js
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./Landingpage.css";
+import Webcam from 'react-webcam';
 
-function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
+function Landingpage({ user, onLogout }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -11,42 +12,104 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  const videoRef = useRef(null);
+  const [facingMode, setFacingMode] = useState("environment"); // Default to rear camera
+  const [availableCameras, setAvailableCameras] = useState([]);
+  const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
+  const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const startCamera = async () => {
+  // Enumerate available cameras
+  const getCameras = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setIsCameraActive(true);
-      }
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      setAvailableCameras(videoDevices);
+      console.log("Available cameras:", videoDevices);
     } catch (err) {
-      setError("Camera access denied.");
+      console.error("Error enumerating devices:", err);
+      setError("Unable to detect available cameras: " + err.message);
+    }
+  };
+
+  // Initial setup
+  useEffect(() => {
+    // Check for camera support and enumerate devices
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+      getCameras();
+    } else {
+      console.error("MediaDevices API not supported");
+      setError("Your browser doesn't support camera access");
+    }
+  }, []);
+
+  const startCamera = () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode } })
+        .then(stream => {
+          setIsCameraActive(true);
+          setError(null);
+          // You can optionally display the camera stream in a video element or use react-webcam as you are doing
+        })
+        .catch(err => {
+          console.error("Camera access error:", err);
+          setError("Camera access denied. Please allow camera permissions.");
+        });
+    } else {
+      setError("Camera access is not supported by your browser.");
+    }
+  };
+  
+
+  const stopCamera = () => {
+    setIsCameraActive(false);
+  };
+
+  const switchCamera = () => {
+    if (availableCameras.length > 1) {
+      // If we have multiple cameras, cycle through them
+      const nextCameraIndex = (currentCameraIndex + 1) % availableCameras.length;
+      setCurrentCameraIndex(nextCameraIndex);
+      console.log("Switching to camera index:", nextCameraIndex);
+    } else {
+      // If we don't have specific camera info, toggle between front and back
+      const newFacingMode = facingMode === "user" ? "environment" : "user";
+      setFacingMode(newFacingMode);
+      console.log("Switching facing mode to:", newFacingMode);
     }
   };
 
   const captureImage = () => {
-    if (canvasRef.current && videoRef.current) {
-      const context = canvasRef.current.getContext('2d');
-      canvasRef.current.width = videoRef.current.videoWidth;
-      canvasRef.current.height = videoRef.current.videoHeight;
+    if (!webcamRef.current) {
+      setError("Camera not properly initialized");
+      return;
+    }
 
-      context.drawImage(videoRef.current, 0, 0,
-        canvasRef.current.width,
-        canvasRef.current.height);
-
-      // Convert canvas to blob and create file
-      canvasRef.current.toBlob((blob) => {
-        const file = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
-        setSelectedFile(file);
-        setPreview(canvasRef.current.toDataURL());
-        setIsCameraActive(false);
-        // Stop video tracks
-        const tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-        videoRef.current.srcObject = null;
-      });
+    try {
+      // Capture image from webcam
+      const imageSrc = webcamRef.current.getScreenshot();
+      
+      if (!imageSrc) {
+        setError("Failed to capture image. Please try again.");
+        return;
+      }
+      
+      // Convert data URL to blob/file
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const capturedImage = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
+          setSelectedFile(capturedImage);
+          setPreview(imageSrc);
+          stopCamera();
+          setPrediction(null); // Clear any previous predictions
+        })
+        .catch(err => {
+          console.error("Error processing capture:", err);
+          setError("Failed to process captured image: " + err.message);
+        });
+    } catch (err) {
+      console.error("Error capturing image:", err);
+      setError("Failed to capture image: " + err.message);
     }
   };
 
@@ -57,19 +120,13 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
       setPreview(URL.createObjectURL(file));
       setPrediction(null);
       setError(null);
-      // Stop camera if active
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-        videoRef.current.srcObject = null;
-        setIsCameraActive(false);
-      }
+      stopCamera();
     }
   };
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError("Please select an image first.");
+      setError("Please select or capture an image first.");
       return;
     }
 
@@ -85,7 +142,8 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
       });
       setPrediction(response.data);
     } catch (err) {
-      setError("Failed to get prediction. Please try again.");
+      console.error("Upload error:", err);
+      setError("Failed to get prediction. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -95,12 +153,28 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
     document.getElementById('fileInput').click();
   };
 
-  const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach(track => track.stop());
-      videoRef.current.srcObject = null;
-      setIsCameraActive(false);
+  const resetCapture = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    setPrediction(null);
+    setError(null);
+  };
+
+  // Get video constraints based on selected camera
+  const getVideoConstraints = () => {
+    if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
+      return {
+        deviceId: availableCameras[currentCameraIndex].deviceId,
+        facingMode: undefined,
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      };
+    } else {
+      return {
+        facingMode: facingMode,
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      };
     }
   };
 
@@ -109,7 +183,7 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
       <header className="landing-header">
         <h2>BotaniSnap-AI</h2>
         <div className="user-menu">
-          <span>{user ? user.email : 'User'}</span> {/* Display user info */}
+          <span>{user ? user.email : 'User'}</span>
           <div className="user-icon"></div>
           <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
             &#9776;
@@ -120,7 +194,7 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
                 <li>Profile</li>
                 <li>Menu</li>
                 <li>Gallery</li>
-                <li className="logout" onClick={onLogout}>Log Out</li> {/* Use the passed onLogout handler */}
+                <li className="logout" onClick={onLogout}>Log Out</li>
               </ul>
             </div>
           )}
@@ -129,15 +203,21 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
 
       <div className="landing-main">
         <div className="main-box">
-          {/* Camera Preview Section */}
+          {/* Camera Preview Section using react-webcam */}
           {isCameraActive && (
             <div className="camera-container">
-              <video 
-                ref={videoRef} 
-                className="camera-preview" 
-                autoPlay 
-                playsInline 
-                muted
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                videoConstraints={getVideoConstraints()}
+                className="camera-preview"
+                mirrored={facingMode === "user"}
+                onUserMediaError={(err) => {
+                  console.error("Webcam error:", err);
+                  setError("Camera access error: " + (err.message || "Could not access camera"));
+                  stopCamera();
+                }}
               />
               <div className="camera-controls">
                 <button 
@@ -145,6 +225,14 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
                   onClick={captureImage}
                 >
                   Capture
+                </button>
+                <button 
+                  className="action-button" 
+                  onClick={switchCamera}
+                >
+                  Switch Camera ({availableCameras.length > 1 ? 
+                    `Camera ${currentCameraIndex + 1}/${availableCameras.length}` : 
+                    facingMode === "user" ? "Front" : "Back"})
                 </button>
                 <button 
                   className="action-button" 
@@ -195,16 +283,13 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
                   disabled={loading} 
                   className="action-button"
                 >
-                  {loading ? "Processing..." : "Upload & Predict"}
+                  {loading ? "Processing..." : "Identify Plant"}
                 </button>
                 <button 
                   className="action-button" 
-                  onClick={() => {
-                    setPreview(null);
-                    setSelectedFile(null);
-                  }}
+                  onClick={resetCapture}
                 >
-                  Clear
+                  New Photo
                 </button>
               </div>
             </div>
@@ -217,31 +302,37 @@ function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
         </div>
         
         <div className="sidebar">
-          {error && <p className="error">{error}</p>}
+          {error && (
+            <div className="error-message">
+              <p className="error">{error}</p>
+              {isCameraActive && (
+                <button 
+                  className="action-button small" 
+                  onClick={startCamera}
+                >
+                  Retry Camera
+                </button>
+              )}
+            </div>
+          )}
+          
+          {loading && (
+            <div className="loading-indicator">
+              Analyzing your plant image...
+            </div>
+          )}
 
           {prediction && (
             <div className="prediction-results">
               <h2>Identified Plant: {prediction.predicted_plant}</h2>
               
-              {/* Display top alternative predictions
-              <div className="alternative-predictions">
-                <h3>Alternative Matches:</h3>
-                <ul>
-                  {prediction.top_predictions.map((item, index) => (
-                    <li key={index}>
-                      {item.plant_name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-               */}
               {/* Display plant info from Gemini */}
               {prediction.plant_info && prediction.plant_info.status === "success" && (
-                <div className="plant-info">
-                  <h3>Plant Information:</h3>
+                <div className="plant-info-container">
+                  <h2>Plant Information:</h2>
                   <div className="plant-info-content">
                     {prediction.plant_info.info.split('\n').map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
+                      <p key={index} className="plant-info-text">{paragraph}</p>
                     ))}
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@google/genai": "^0.8.0"
+    "@google/genai": "^0.8.0",
+    "react-webcam": "^7.2.0"
   }
 }
