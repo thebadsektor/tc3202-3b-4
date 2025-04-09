@@ -7,10 +7,7 @@ import io
 import traceback
 import os
 from flask_cors import CORS
-<<<<<<< HEAD
 import google.generativeai as genai
-=======
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -18,29 +15,29 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # ✅ Log TensorFlow version to check compatibility
 print(f"✅ TensorFlow Version: {tf.__version__}")
 
-<<<<<<< HEAD
 # ✅ Configure Google Generative AI
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "YOUR_API_KEY_HERE")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyDHeTsSX7r3Xy46SYlJA9lHgc_Hmb_ZAq0")
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # ✅ Function to get plant information using Gemini
 def get_plant_info(plant_name):
     try:
-        prompt = f"""Give a detailed description and care guide for the plant: {plant_name}. Include:
-        - Short description
-        - Light, water, and soil requirements
-        - Common issues and tips
-        """
+        prompt = f"""Give a short description and a short care guide for the plant: {plant_name}. and below provide a link to a website with more information about the plant."""
+
+        # Include:
+        # - Short description
+        # - Light, water, and soil requirements
+        # - Common issues and tips
+        # """
         
-        model = genai.GenerativeModel("gemini-1.5-flash")  # or "gemini-pro"
+        
+        model = genai.GenerativeModel("gemini-2.0-flash")  # or "gemini-pro"
         response = model.generate_content(prompt)
         return {"status": "success", "info": response.text}
     except Exception as e:
         print(f"❌ Error getting plant info: {str(e)}")
         return {"status": "error", "message": f"Failed to get plant information: {str(e)}"}
 
-=======
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 # ✅ Define class names (Ensure order matches model training)
 CLASS_NAMES = [
     "African Violet (Saintpaulia ionantha)", "Aloe Vera", "Anthurium (Anthurium andraeanum)", 
@@ -127,7 +124,6 @@ def predict():
         top_indices = np.argsort(prediction[0])[-3:][::-1]
         top_predictions = [{"plant_name": CLASS_NAMES[idx], "accuracy": round(float(prediction[0][idx]) * 100, 2)} for idx in top_indices]
 
-<<<<<<< HEAD
         # ✅ Get plant care information from Gemini
         predicted_plant = CLASS_NAMES[predicted_class_index]
         plant_info = get_plant_info(predicted_plant)
@@ -138,13 +134,6 @@ def predict():
             "top_predictions": top_predictions,
             "plant_info": plant_info,
             "message": f"Identified plant as {predicted_plant} with {round(confidence, 2)}% accuracy"
-=======
-        return jsonify({
-            "predicted_plant": CLASS_NAMES[predicted_class_index],
-            "accuracy": round(confidence, 2),
-            "top_predictions": top_predictions,
-            "message": f"Identified plant as {CLASS_NAMES[predicted_class_index]} with {round(confidence, 2)}% accuracy"
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
         })
 
     except Exception as e:
@@ -152,7 +141,6 @@ def predict():
         print(traceback.format_exc())
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
 
-<<<<<<< HEAD
 # ✅ Plant info route (separate from prediction)
 @app.route("/plant_info", methods=["GET"])
 def plant_info():
@@ -168,8 +156,6 @@ def plant_info():
         print(traceback.format_exc())
         return jsonify({"error": f"Failed to get plant information: {str(e)}"}), 500
 
-=======
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 # ✅ Login route
 @app.route("/login", methods=["POST"])
 def login():

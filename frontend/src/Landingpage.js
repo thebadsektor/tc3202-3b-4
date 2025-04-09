@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 // src/Landingpage.js
-=======
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./Landingpage.css";
 
-<<<<<<< HEAD
 function Landingpage({ user, onLogout }) { // Receive user and onLogout as props
-=======
-function Landingpage({ onLogout }) {
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -18,11 +11,6 @@ function Landingpage({ onLogout }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -43,30 +31,17 @@ function Landingpage({ onLogout }) {
       const context = canvasRef.current.getContext('2d');
       canvasRef.current.width = videoRef.current.videoWidth;
       canvasRef.current.height = videoRef.current.videoHeight;
-<<<<<<< HEAD
 
       context.drawImage(videoRef.current, 0, 0,
         canvasRef.current.width,
         canvasRef.current.height);
 
-=======
-      
-      context.drawImage(videoRef.current, 0, 0, 
-        canvasRef.current.width, 
-        canvasRef.current.height);
-      
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
       // Convert canvas to blob and create file
       canvasRef.current.toBlob((blob) => {
         const file = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
         setSelectedFile(file);
         setPreview(canvasRef.current.toDataURL());
         setIsCameraActive(false);
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
         // Stop video tracks
         const tracks = videoRef.current.srcObject.getTracks();
         tracks.forEach(track => track.stop());
@@ -82,11 +57,6 @@ function Landingpage({ onLogout }) {
       setPreview(URL.createObjectURL(file));
       setPrediction(null);
       setError(null);
-<<<<<<< HEAD
-
-=======
-      
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
       // Stop camera if active
       if (videoRef.current && videoRef.current.srcObject) {
         const tracks = videoRef.current.srcObject.getTracks();
@@ -139,11 +109,7 @@ function Landingpage({ onLogout }) {
       <header className="landing-header">
         <h2>BotaniSnap-AI</h2>
         <div className="user-menu">
-<<<<<<< HEAD
           <span>{user ? user.email : 'User'}</span> {/* Display user info */}
-=======
-          <span>User</span>
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
           <div className="user-icon"></div>
           <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
             &#9776;
@@ -154,11 +120,7 @@ function Landingpage({ onLogout }) {
                 <li>Profile</li>
                 <li>Menu</li>
                 <li>Gallery</li>
-<<<<<<< HEAD
                 <li className="logout" onClick={onLogout}>Log Out</li> {/* Use the passed onLogout handler */}
-=======
-                <li className="logout" onClick={onLogout}>Log Out</li>
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
               </ul>
             </div>
           )}
@@ -170,18 +132,6 @@ function Landingpage({ onLogout }) {
           {/* Camera Preview Section */}
           {isCameraActive && (
             <div className="camera-container">
-<<<<<<< HEAD
-              <video
-                ref={videoRef}
-                className="camera-preview"
-                autoPlay
-                playsInline
-                muted
-              />
-              <div className="camera-controls">
-                <button
-                  className="action-button"
-=======
               <video 
                 ref={videoRef} 
                 className="camera-preview" 
@@ -192,18 +142,12 @@ function Landingpage({ onLogout }) {
               <div className="camera-controls">
                 <button 
                   className="action-button" 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                   onClick={captureImage}
                 >
                   Capture
                 </button>
-<<<<<<< HEAD
-                <button
-                  className="action-button"
-=======
                 <button 
                   className="action-button" 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                   onClick={stopCamera}
                 >
                   Cancel
@@ -215,28 +159,12 @@ function Landingpage({ onLogout }) {
           {/* Initial State - No Camera or Preview */}
           {!isCameraActive && !preview && (
             <div className="camera-controls">
-<<<<<<< HEAD
-              <button
-                className="action-button"
-=======
               <button 
                 className="action-button" 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                 onClick={startCamera}
               >
                 Open Camera
               </button>
-<<<<<<< HEAD
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{display: 'none'}}
-              />
-              <button
-                className="action-button"
-=======
               <input 
                 type="file" 
                 id="fileInput"
@@ -246,7 +174,6 @@ function Landingpage({ onLogout }) {
               />
               <button 
                 className="action-button" 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                 onClick={handleFileUpload}
               >
                 Upload Photo
@@ -257,17 +184,6 @@ function Landingpage({ onLogout }) {
           {/* Preview Section */}
           {preview && (
             <div className="preview-container">
-<<<<<<< HEAD
-              <img
-                src={preview}
-                alt="Preview"
-                className="preview-image"
-              />
-              <div className="camera-controls">
-                <button
-                  onClick={handleUpload}
-                  disabled={loading}
-=======
               <img 
                 src={preview} 
                 alt="Preview" 
@@ -277,18 +193,12 @@ function Landingpage({ onLogout }) {
                 <button 
                   onClick={handleUpload} 
                   disabled={loading} 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                   className="action-button"
                 >
                   {loading ? "Processing..." : "Upload & Predict"}
                 </button>
-<<<<<<< HEAD
-                <button
-                  className="action-button"
-=======
                 <button 
                   className="action-button" 
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
                   onClick={() => {
                     setPreview(null);
                     setSelectedFile(null);
@@ -300,36 +210,42 @@ function Landingpage({ onLogout }) {
             </div>
           )}
 
-<<<<<<< HEAD
-          <canvas
-            ref={canvasRef}
-            style={{display: 'none'}}
-          />
-        </div>
-
-=======
           <canvas 
             ref={canvasRef} 
             style={{display: 'none'}} 
           />
         </div>
         
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
         <div className="sidebar">
           {error && <p className="error">{error}</p>}
 
           {prediction && (
             <div className="prediction-results">
-              <h2>Prediction: {prediction.predicted_plant}</h2>
-              <p>Confidence: {prediction.accuracy}%</p>
-              <h3>Top Predictions:</h3>
-              <ul>
-                {prediction.top_predictions.map((item, index) => (
-                  <li key={index}>
-                    {item.plant_name}: {item.accuracy}%
-                  </li>
-                ))}
-              </ul>
+              <h2>Identified Plant: {prediction.predicted_plant}</h2>
+              
+              {/* Display top alternative predictions
+              <div className="alternative-predictions">
+                <h3>Alternative Matches:</h3>
+                <ul>
+                  {prediction.top_predictions.map((item, index) => (
+                    <li key={index}>
+                      {item.plant_name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+               */}
+              {/* Display plant info from Gemini */}
+              {prediction.plant_info && prediction.plant_info.status === "success" && (
+                <div className="plant-info">
+                  <h3>Plant Information:</h3>
+                  <div className="plant-info-content">
+                    {prediction.plant_info.info.split('\n').map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -75,30 +74,6 @@ function App() {
           onSwitchToRegister={() => setIsRegistering(true)}
           onLoginSuccess={handleLoginSuccess}
         />
-=======
-import React, { useState } from "react";
-import Landingpage from "./Landingpage";
-import Login from "./Login";
-import "./App.css";
-
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = (status) => {
-    setIsLoggedIn(status);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  return (
-    <div className="App">
-      {isLoggedIn ? (
-        <Landingpage onLogout={handleLogout} />
-      ) : (
-        <Login onLogin={handleLogin} />
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
       )}
     </div>
   );

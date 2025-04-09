@@ -3,6 +3,7 @@ body, html {
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+  overflow-x: hidden;
 }
 
 .landing-container {
@@ -79,11 +80,28 @@ body, html {
   display: flex;
   height: calc(100vh - 80px);
   padding: 20px;
-  gap: 20px;
+  gap: 30px;
+  position: relative;
 }
 
+.sidebar {
+  width: 25%; /* or a fixed width like 300px */
+  background: rgb(233, 222, 222);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow-y: auto; /* Makes the sidebar scrollable */
+  overflow-x: hidden;
+}
+
+
 .main-box {
-  flex: 3;
+  width: 45%; /* or calc(100% - sidebar width - gap) */
   background: #c0e284;
   display: flex;
   flex-direction: column;
@@ -91,18 +109,9 @@ body, html {
   justify-content: center;
   padding: 30px;
   border-radius: 10px;
+  position: relative; /* Optional: use this if you want absolute elements inside */
 }
 
-.sidebar {
-  flex: 1;
-  background: rgb(226, 226, 226);
-  border-radius: 10px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
 
 .action-button {
   background: white;
@@ -170,7 +179,6 @@ body, html {
   color: red;
   font-weight: bold;
   margin-top: 10px;
-<<<<<<< HEAD
 }
 /* Add these styles to your Landingpage.css file */
 
@@ -227,6 +235,4 @@ body, html {
   background-color: #f9f9f9;
   border-radius: 8px;
   margin: 20px 0;
-=======
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e
 }
