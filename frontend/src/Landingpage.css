@@ -128,17 +128,16 @@ body, html {
 }
 
 .camera-preview {
-  max-width: 100%;
-  max-height: 400px;
-  border-radius: 10px;
+  width: 60%;
+  height:300px;
+  object-fit: cover;
   transform: scaleX(-1);
 }
 
 .preview-image {
-  width: 50%;
-  max-width: 50%;
-  height: auto;
-  object-fit: contain;
+  width: 60%;
+  height:300px;
+  object-fit: cover;
   image-rendering: auto;
 }
 
@@ -154,7 +153,6 @@ body, html {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 15px;
 }
 
 .prediction-results {
