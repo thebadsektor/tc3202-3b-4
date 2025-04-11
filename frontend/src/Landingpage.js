@@ -15,8 +15,55 @@ function Landingpage({ user, onLogout }) {
   const [facingMode, setFacingMode] = useState("environment"); // Default to rear camera
   const [availableCameras, setAvailableCameras] = useState([]);
   const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
+  const [mode, setMode] = useState("identify"); // "identify" or "disease"
+  const [diseaseResults, setDiseaseResults] = useState(null);
+  
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const getVideoConstraints = () => {
+  if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
+    return {
+      deviceId: availableCameras[currentCameraIndex].deviceId,
+      width: { ideal: 1920 }, // High-resolution
+      height: { ideal: 1080 },
+    };
+  } else {
+    return {
+      facingMode: facingMode,
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
+    };
+  }
+};
+
+const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+
+      const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+      const width = img.width * ratio;
+      const height = img.height * ratio;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob => {
+        const resizedFile = new File([blob], file.name, { type: "image/jpeg" });
+        resolve(resizedFile);
+      }, "image/jpeg", 0.9); // quality 90%
+    };
+
+    img.onerror = reject;
+  });
+};
+
 
   // Enumerate available cameras
   const getCameras = async () => {
@@ -59,7 +106,6 @@ function Landingpage({ user, onLogout }) {
     }
   };
   
-
   const stopCamera = () => {
     setIsCameraActive(false);
   };
@@ -102,6 +148,7 @@ function Landingpage({ user, onLogout }) {
           setPreview(imageSrc);
           stopCamera();
           setPrediction(null); // Clear any previous predictions
+          setDiseaseResults(null); // Clear any previous disease results
         })
         .catch(err => {
           console.error("Error processing capture:", err);
@@ -119,6 +166,7 @@ function Landingpage({ user, onLogout }) {
       setSelectedFile(file);
       setPreview(URL.createObjectURL(file));
       setPrediction(null);
+      setDiseaseResults(null);
       setError(null);
       stopCamera();
     }
@@ -129,21 +177,35 @@ function Landingpage({ user, onLogout }) {
       setError("Please select or capture an image first.");
       return;
     }
-
     const formData = new FormData();
-    formData.append("file", selectedFile);
+
+    // Resize the image before uploading
+    const resizedFile = await resizeImage(selectedFile);  // <--- Your helper function
+    formData.append("file", resizedFile);
+    
 
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:5000/predict", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setPrediction(response.data);
+      if (mode === "identify") {
+        // Plant identification API call
+        const response = await axios.post("http://localhost:5000/predict", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setPrediction(response.data);
+        setDiseaseResults(null);
+      } else {
+        // Disease detection API call
+        const response = await axios.post("http://localhost:5000/predict_disease_hf", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setDiseaseResults(response.data);
+        setPrediction(null);
+      }
     } catch (err) {
       console.error("Upload error:", err);
-      setError("Failed to get prediction. Please check your connection and try again.");
+      setError(`Failed to ${mode === "identify" ? "identify plant" : "detect disease"}. Please check your connection and try again.`);
     } finally {
       setLoading(false);
     }
@@ -157,25 +219,59 @@ function Landingpage({ user, onLogout }) {
     setPreview(null);
     setSelectedFile(null);
     setPrediction(null);
+    setDiseaseResults(null);
     setError(null);
   };
 
-  // Get video constraints based on selected camera
-  const getVideoConstraints = () => {
-    if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
-      return {
-        deviceId: availableCameras[currentCameraIndex].deviceId,
-        facingMode: undefined,
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      };
-    } else {
-      return {
-        facingMode: facingMode,
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      };
-    }
+  // Toggle between plant identification and disease detection modes
+  const toggleMode = () => {
+    setMode(mode === "identify" ? "disease" : "identify");
+    setPrediction(null);
+    setDiseaseResults(null);
+  };
+
+
+  // Format the disease information for display
+  const formatDiseaseInfo = (info) => {
+    if (!info || !info.info) return null;
+    
+    return info.info.split('\n').map((paragraph, index) => (
+      <p key={index} className="plant-info-text">{paragraph}</p>
+    ));
+  };
+
+  // Render disease detection results
+  const renderDiseaseResults = () => {
+    if (!diseaseResults) return null;
+    
+    const { prediction, confidence_level, disease_info } = diseaseResults;
+    const confidencePercentage = (confidence_level * 100).toFixed(2);
+    
+    return (
+      <div className="prediction-results">
+        <h3>Disease Detection Results:</h3>
+        <p>Diagnosis: <strong>{prediction.replace('_', ' ')}</strong></p>
+        <p>Confidence: {confidencePercentage}%</p>
+        
+        {prediction === "Healthy" ? (
+          <div className="healthy-message">
+            <p>Good news! Your plant appears to be healthy.</p>
+            <p>Continue with proper care and regular monitoring.</p>
+          </div>
+        ) : (
+          <div className="disease-info-container">
+            <h3>Disease Information:</h3>
+            {disease_info && disease_info.status === "success" ? (
+              <div className="disease-info-content">
+                {formatDiseaseInfo(disease_info)}
+              </div>
+            ) : (
+              <p>No detailed information available for this disease.</p>
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -194,6 +290,7 @@ function Landingpage({ user, onLogout }) {
                 <li>Profile</li>
                 <li>Menu</li>
                 <li>Gallery</li>
+                <li>Settings</li>
                 <li className="logout" onClick={onLogout}>Log Out</li>
               </ul>
             </div>
@@ -203,6 +300,14 @@ function Landingpage({ user, onLogout }) {
 
       <div className="landing-main">
         <div className="main-box">
+          {/* Mode indicator */}
+          <div className="mode-indicator">
+            <h3>Mode: {mode === "identify" ? "Plant Identification" : "Disease Detection"}</h3>
+            <button className="mode-toggle-button" onClick={toggleMode}>
+              Switch to {mode === "identify" ? "Disease Detection" : "Plant Identification"}
+            </button>
+          </div>
+
           {/* Camera Preview Section using react-webcam */}
           {isCameraActive && (
             <div className="camera-container">
@@ -210,6 +315,7 @@ function Landingpage({ user, onLogout }) {
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
+                screenshotQuality={1}
                 videoConstraints={getVideoConstraints()}
                 className="camera-preview"
                 mirrored={facingMode === "user"}
@@ -230,9 +336,7 @@ function Landingpage({ user, onLogout }) {
                   className="action-button" 
                   onClick={switchCamera}
                 >
-                  Switch Camera ({availableCameras.length > 1 ? 
-                    `Camera ${currentCameraIndex + 1}/${availableCameras.length}` : 
-                    facingMode === "user" ? "Front" : "Back"})
+                  Switch Camera
                 </button>
                 <button 
                   className="action-button" 
@@ -283,7 +387,7 @@ function Landingpage({ user, onLogout }) {
                   disabled={loading} 
                   className="action-button"
                 >
-                  {loading ? "Processing..." : "Identify Plant"}
+                  {loading ? "Processing..." : mode === "identify" ? "Identify Plant" : "Detect Disease"}
                 </button>
                 <button 
                   className="action-button" 
@@ -318,14 +422,14 @@ function Landingpage({ user, onLogout }) {
           
           {loading && (
             <div className="loading-indicator">
-              Analyzing your plant image...
+              {mode === "identify" ? "Analyzing your plant image..." : "Checking for plant diseases..."}
             </div>
           )}
 
+          {/* Plant Identification Results */}
           {prediction && (
             <div className="prediction-results">
               <h2>Identified Plant: {prediction.predicted_plant}</h2>
-              
               {/* Display plant info from Gemini */}
               {prediction.plant_info && prediction.plant_info.status === "success" && (
                 <div className="plant-info-container">
@@ -339,6 +443,9 @@ function Landingpage({ user, onLogout }) {
               )}
             </div>
           )}
+
+          {/* Disease Detection Results */}
+          {diseaseResults && renderDiseaseResults()}
         </div>
       </div>
     </div>

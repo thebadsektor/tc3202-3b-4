@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -----------------------------
 # Node.js
 # -----------------------------
@@ -54,10 +53,3 @@ coverage/
 .pnp.js
 *.swp
 *.swo
-=======
-backend/venv/
-*.pyd
-*.dll
-backend/venv/
-backend/venv/
->>>>>>> a3235200dbdd32c2557b48cfed791a8c4f2f007e

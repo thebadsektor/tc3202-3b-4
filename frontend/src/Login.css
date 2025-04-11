@@ -7,6 +7,7 @@ body {
   justify-content: center;
   height: 100vh;
   font-family: Arial, sans-serif;
+  overflow-y: hidden;
 }
 .login-text {
   font-size: 2rem;

@@ -8,11 +8,16 @@ import traceback
 import os
 from flask_cors import CORS
 import google.generativeai as genai
+import cv2
+from transformers import AutoImageProcessor, AutoModelForImageClassification
+import torch
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ✅ Log TensorFlow version to check compatibility
+print(f"TensorFlow Version: {tf.__version__}")
 print(f"✅ TensorFlow Version: {tf.__version__}")
 
 # ✅ Configure Google Generative AI
@@ -22,14 +27,12 @@ genai.configure(api_key=GOOGLE_API_KEY)
 # ✅ Function to get plant information using Gemini
 def get_plant_info(plant_name):
     try:
-        prompt = f"""Give a short description and a short care guide for the plant: {plant_name}. and below provide a link to a website with more information about the plant."""
-
-        # Include:
-        # - Short description
-        # - Light, water, and soil requirements
-        # - Common issues and tips
-        # """
-        
+        prompt = f"""Give a short description and a short care guide for the plant: {plant_name}.
+        Include:
+        - Short description
+        - Light, water, and soil requirements
+        - Common issues and tips
+        """
         
         model = genai.GenerativeModel("gemini-2.0-flash")  # or "gemini-pro"
         response = model.generate_content(prompt)
@@ -38,8 +41,20 @@ def get_plant_info(plant_name):
         print(f"❌ Error getting plant info: {str(e)}")
         return {"status": "error", "message": f"Failed to get plant information: {str(e)}"}
 
-# ✅ Define class names (Ensure order matches model training)
-CLASS_NAMES = [
+# ✅ Function to get disease information using Gemini
+def get_disease_info(disease_name):
+    try:
+        prompt = f"""Give a very short description, symptoms, causes, and treatment recommendations for the plant disease: {disease_name}."""
+        
+        model = genai.GenerativeModel("gemini-2.0-flash")  # or "gemini-pro"
+        response = model.generate_content(prompt)
+        return {"status": "success", "info": response.text}
+    except Exception as e:
+        print(f"❌ Error getting disease info: {str(e)}")
+        return {"status": "error", "message": f"Failed to get disease information: {str(e)}"}
+
+# ✅ Define class names for plant identification (Ensure order matches model training)
+PLANT_CLASS_NAMES = [
     "African Violet (Saintpaulia ionantha)", "Aloe Vera", "Anthurium (Anthurium andraeanum)", 
     "Areca Palm (Dypsis lutescens)", "Asparagus Fern (Asparagus setaceus)", "Begonia (Begonia spp.)", 
     "Bird of Paradise (Strelitzia reginae)", "Birds Nest Fern (Asplenium nidus)", 
@@ -58,46 +73,102 @@ CLASS_NAMES = [
     "Tulip", "Venus Flytrap", "Yucca", "ZZ Plant (Zamioculcas)"
 ]
 
-# ✅ Load model
-MODEL_PATH = "D:/ayoko na/plant-identification-app/tc3202-3b-4/backend/model/plant_identification_model.h5"
+DISEASE_CLASS_NAMES = {
+    0:'Applescab', 1:'Blackrot', 2:'Cedarapplerust', 3:'healthy', 4:'healthy',
+    5:'Powderymildew', 6:'healthy', 7:'CercosporaleafspotGrayleafspot', 8:'Commonrust',
+    9:'NorthernLeafBlight', 10:'healthy', 11:'Blackrot', 12:'Esca(BlackMeasles)',
+    13:'Leafblight(IsariopsisLeafSpot)', 14:'healthy', 15:'Haunglongbing(Citrusgreening)',
+    16:'Bacterialspot', 17:'healthy', 18:'Bacterialspot', 19:'healthy', 20:'Earlyblight',
+    21:'Lateblight', 22:'healthy', 23:'healthy', 24:'healthy', 25:'Powderymildew',
+    26:'Leafscorch', 27:'healthy', 28:'Bacterialspot', 29:'Earlyblight', 30:'Lateblight',
+    31:'LeafMold', 32:'Septorialeafspot', 33:'SpidermitesTwo-spottedspidermite',
+    34:'TargetSpot', 35:'TomatoYellowLeafCurlVirus', 36:'Tomatomosaicvirus', 37:'healthy'
+}
+
+DISEASE_CROP_CLASSES = {
+    0: 'Apple', 1: 'Apple', 2: 'Apple', 3: 'Apple', 4: 'Blueberry',
+    5: 'Cherry (including sour)', 6: 'Cherry (including sour)', 7: 'Corn (maize)',
+    8: 'Corn (maize)', 9: 'Corn (maize)', 10: 'Corn (maize)', 11: 'Grape',
+    12: 'Grape', 13: 'Grape', 14: 'Grape', 15: 'Orange', 16: 'Peach', 17: 'Peach',
+    18: 'Pepper, bell', 19: 'Pepper, bell', 20: 'Potato', 21: 'Potato',
+    22: 'Potato', 23: 'Raspberry', 24: 'Soybean', 25: 'Squash',
+    26: 'Strawberry', 27: 'Strawberry', 28: 'Tomato', 29: 'Tomato', 30: 'Tomato',
+    31: 'Tomato', 32: 'Tomato', 33: 'Tomato', 34: 'Tomato', 35: 'Tomato',
+    36: 'Tomato', 37: 'Tomato'
+}
+
+
+# Paths for models
+PLANT_MODEL_PATH = "D:/G4/tc3202-3b-4/backend/model/plant_identification_model.h5"
+
+# Global variables for models
+plant_model = None
+
+# ✅ Load Hugging Face disease model
+try:
+    hf_processor = AutoImageProcessor.from_pretrained("Diginsa/Plant-Disease-Detection-Project")
+    hf_model = AutoModelForImageClassification.from_pretrained("Diginsa/Plant-Disease-Detection-Project")
+    hf_model.eval()
+    print("✅ Hugging Face model loaded successfully!")
+except Exception as e:
+    hf_processor = None
+    hf_model = None
+    print(f"❌ Error loading Hugging Face model: {e}")
+
+
 
 try:
-    if not os.path.exists(MODEL_PATH):
-        raise FileNotFoundError(f"❌ Model file not found at {MODEL_PATH}")
+    if not os.path.exists(PLANT_MODEL_PATH):
+        raise FileNotFoundError(f"❌ Plant model file not found at {PLANT_MODEL_PATH}")
 
-    model = load_model(MODEL_PATH)
-    print("✅ Model loaded successfully!")
-    print(f"✅ Model expects input shape: {model.input_shape}")
+    plant_model = load_model(PLANT_MODEL_PATH)
+    print("✅ Plant identification model loaded successfully!")
+    print(f"✅ Plant model expects input shape: {plant_model.input_shape}")
 
 except Exception as e:
-    print(f"❌ Error loading model: {e}")
+    print(f"❌ Error loading plant model: {e}")
     print(traceback.format_exc())
-    exit(1)  # Stop execution if model fails to load
+    exit(1)  # Stop execution if plant model fails to load
 
-# ✅ Image preprocessing function
-def preprocess_image(image):
+
+# ✅ Image preprocessing function for plant identification
+def preprocess_plant_image(image):
     try:
-        input_shape = model.input_shape
-        expected_height = input_shape[1] if input_shape[1] is not None else 150
-        expected_width = input_shape[2] if input_shape[2] is not None else 150
-        print(f"✅ Resizing image to {expected_width}x{expected_height}")
+        input_shape = plant_model.input_shape
+        expected_height = input_shape[1] if input_shape[1] is not None else 224
+        expected_width = input_shape[2] if input_shape[2] is not None else 224
+        print(f"✅ Resizing plant image to {expected_width}x{expected_height}")
 
         image = image.resize((expected_width, expected_height))
         img_array = np.array(image) / 255.0  # Normalize
         img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
         return img_array
     except Exception as e:
-        print(f"❌ Error processing image: {e}")
+        print(f"❌ Error processing plant image: {e}")
         return None
 
-# ✅ Prediction route
-@app.route("/predict", methods=["POST"])
-def predict():
+def preprocess_for_huggingface_model(image_bytes):
     try:
-        print(f"✅ CLASS_NAMES: {CLASS_NAMES}")  # Debugging
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        inputs = hf_processor(images=image, return_tensors="pt")
+        return inputs
+    except Exception as e:
+        print(f"❌ Error preprocessing for Hugging Face model: {e}")
+        return None
 
-        if not CLASS_NAMES:
-            return jsonify({"error": "Class names not loaded properly"}), 500
+
+
+# ✅ Plant identification prediction route
+@app.route("/predict", methods=["POST"])
+def predict_plant():
+    try:
+        if plant_model is None:
+            return jsonify({"error": "Plant model not loaded"}), 500
+            
+        print(f"✅ PLANT_CLASS_NAMES: {PLANT_CLASS_NAMES}")  # Debugging
+
+        if not PLANT_CLASS_NAMES:
+            return jsonify({"error": "Plant class names not loaded properly"}), 500
 
         if "file" not in request.files:
             return jsonify({"error": "No file provided"}), 400
@@ -105,27 +176,31 @@ def predict():
         file = request.files["file"]
         print(f"✅ Received file: {file.filename}")
 
-        image = Image.open(io.BytesIO(file.read())).convert("RGB")
+        # Read the file once and save the bytes
+        file_bytes = file.read()
+        
+        # Create image from bytes for plant identification
+        image = Image.open(io.BytesIO(file_bytes)).convert("RGB")
         print(f"✅ Original image size: {image.size}")
 
-        processed_image = preprocess_image(image)
+        processed_image = preprocess_plant_image(image)
         if processed_image is None:
             return jsonify({"error": "Image processing failed"}), 500
 
-        print("✅ Making prediction...")
-        prediction = model.predict(processed_image)
+        print("✅ Making plant prediction...")
+        prediction = plant_model.predict(processed_image)
 
         predicted_class_index = np.argmax(prediction[0])
         confidence = float(prediction[0][predicted_class_index]) * 100
 
-        if predicted_class_index >= len(CLASS_NAMES):
+        if predicted_class_index >= len(PLANT_CLASS_NAMES):
             return jsonify({"error": f"Predicted index {predicted_class_index} is out of range"}), 500
 
         top_indices = np.argsort(prediction[0])[-3:][::-1]
-        top_predictions = [{"plant_name": CLASS_NAMES[idx], "accuracy": round(float(prediction[0][idx]) * 100, 2)} for idx in top_indices]
+        top_predictions = [{"plant_name": PLANT_CLASS_NAMES[idx], "accuracy": round(float(prediction[0][idx]) * 100, 2)} for idx in top_indices]
 
         # ✅ Get plant care information from Gemini
-        predicted_plant = CLASS_NAMES[predicted_class_index]
+        predicted_plant = PLANT_CLASS_NAMES[predicted_class_index]
         plant_info = get_plant_info(predicted_plant)
 
         return jsonify({
@@ -141,6 +216,45 @@ def predict():
         print(traceback.format_exc())
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
 
+
+@app.route("/predict_disease_hf", methods=["POST"])
+def predict_disease_hf():
+    try:
+        if hf_model is None or hf_processor is None:
+            return jsonify({"error": "Hugging Face model not loaded"}), 500
+        
+        if "file" not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
+        
+        file = request.files["file"]
+        file_bytes = file.read()
+
+        inputs = preprocess_for_huggingface_model(file_bytes)
+        if inputs is None:
+            return jsonify({"error": "Failed to preprocess image"}), 500
+
+        with torch.no_grad():
+            outputs = hf_model(**inputs)
+            logits = outputs.logits
+            predicted_class_index = torch.argmax(logits, dim=1).item()
+            confidence = torch.nn.functional.softmax(logits, dim=1)[0][predicted_class_index].item() * 100
+        
+        predicted_label = hf_model.config.id2label[predicted_class_index]
+
+        # Optionally use Gemini for extra disease info
+        disease_info = get_disease_info(predicted_label) if "healthy" not in predicted_label.lower() else None
+
+        return jsonify({
+            "prediction": predicted_label,
+            "confidence_level": round(confidence, 2),
+            "disease_info": disease_info
+        })
+
+    except Exception as e:
+        print(f"❌ Error in /predict_disease_hf: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 # ✅ Plant info route (separate from prediction)
 @app.route("/plant_info", methods=["GET"])
 def plant_info():
@@ -155,6 +269,21 @@ def plant_info():
         print(f"❌ Error in /plant_info route: {str(e)}")
         print(traceback.format_exc())
         return jsonify({"error": f"Failed to get plant information: {str(e)}"}), 500
+
+# ✅ Disease info route
+@app.route("/disease_info", methods=["GET"])
+def disease_info():
+    try:
+        disease_name = request.args.get("name")
+        if not disease_name:
+            return jsonify({"error": "Disease name is required"}), 400
+            
+        info = get_disease_info(disease_name)
+        return jsonify(info)
+    except Exception as e:
+        print(f"❌ Error in /disease_info route: {str(e)}")
+        print(traceback.format_exc())
+        return jsonify({"error": f"Failed to get disease information: {str(e)}"}), 500
 
 # ✅ Login route
 @app.route("/login", methods=["POST"])
@@ -172,9 +301,17 @@ def login():
 # ✅ Health check route
 @app.route("/health", methods=["GET"])
 def health_check():
-    return jsonify({"status": "ok", "message": "Server is running"})
+    return jsonify({
+        "status": "ok", 
+        "message": "Server is running",
+        "tensorflow_version": tf.__version__,
+        "features": {
+        "plant_identification": "available" if plant_model is not None else "unavailable",
+        "hf_disease_detection": "available" if hf_model is not None else "unavailable"
+    }
+    })
 
 # ✅ Run Flask server
 if __name__ == "__main__":
-    print("✅ Starting plant identification server...")
+    print("✅ Starting plant and disease detection server...")
     app.run(debug=True, host="0.0.0.0", port=5000)
