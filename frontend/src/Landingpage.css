@@ -9,7 +9,7 @@ body, html {
 .landing-container {
   width: 100vw;
   height: 100vh;
-  background-color: #E5F0FA;
+  background-color: #fdf8d2;
   display: flex;
   flex-direction: column;
 }
@@ -19,15 +19,12 @@ body, html {
   justify-content: space-between;
   align-items: center;
   padding: 1px 30px;
-  background: #c2d8b9;
+  background: #72bf44;
   border-bottom: 2px solid #ccc;
 }
 
 .user-menu {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .user-icon {
@@ -45,14 +42,73 @@ body, html {
 
 .dropdown-menu {
   position: absolute;
-  top: 40px;
+  top: 48px;
   right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  width: 150px;
-  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.menu-trigger {
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-pic-large {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.profile-circle {
+  width: 50px;
+  height: 50px;
+  background-color: #b388eb;
+  border-radius: 50%;
+}
+
+.profile-circle-large {/*Inside dropdown menu*/
+  width: 80px;
+  height: 80px;
+  background-color: #b388eb;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.logout {
+  color: red;
 }
 
 .dropdown-menu ul {
@@ -86,7 +142,7 @@ body, html {
 
 .sidebar {
   width: 25%; /* or a fixed width like 300px */
-  background: rgb(233, 222, 222);
+  background: #F0F8FF;
   border-radius: 10px;
   padding: 20px;
   display: flex;
@@ -101,7 +157,7 @@ body, html {
 
 .main-box {
   width: 45%; /* or calc(100% - sidebar width - gap) */
-  background: #c0e284;
+  background: #4a914b;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,8 +191,8 @@ body, html {
 }
 
 .preview-image {
-  width: 60%;
-  height:300px;
+  max-width: 100%;
+  max-height: 400px;
   object-fit: cover;
   image-rendering: auto;
 }
@@ -157,10 +213,9 @@ body, html {
 
 .prediction-results {
   width: 100%;
-  background: #f9f9f9;
+  background: #F0F8FF;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 

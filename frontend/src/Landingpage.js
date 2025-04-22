@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./Landingpage.css";
 import Webcam from 'react-webcam';
+import  { marked } from 'marked'
 
 function Landingpage({ user, onLogout }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -279,23 +280,21 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
       <header className="landing-header">
         <h2>BotaniSnap-AI</h2>
         <div className="user-menu">
-          <span>{user ? user.email : 'User'}</span>
-          <div className="user-icon"></div>
-          <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-            &#9776;
-          </div>
-          {menuOpen && (
-            <div className="dropdown-menu">
-              <ul>
-                <li>Profile</li>
-                <li>Menu</li>
-                <li>Gallery</li>
-                <li>Settings</li>
-                <li className="logout" onClick={onLogout}>Log Out</li>
-              </ul>
-            </div>
-          )}
-        </div>
+  <div className="menu-trigger" onClick={() => setMenuOpen(!menuOpen)}>
+    <div className="profile-circle"></div>
+  </div>
+  {menuOpen && (
+    <div className="dropdown-menu">
+      <div className="profile-info">
+        <div className="profile-circle-large"></div>
+        <p>{user ? user.email : "User"}</p>
+      </div>
+      <button className="dropdown-item">About</button>
+      <button className="dropdown-item logout" onClick={onLogout}>Log Out</button>
+    </div>
+  )}
+</div>
+
       </header>
 
       <div className="landing-main">
@@ -428,21 +427,24 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
 
           {/* Plant Identification Results */}
           {prediction && (
-            <div className="prediction-results">
-              <h2>Identified Plant: {prediction.predicted_plant}</h2>
-              {/* Display plant info from Gemini */}
-              {prediction.plant_info && prediction.plant_info.status === "success" && (
-                <div className="plant-info-container">
-                  <h2>Plant Information:</h2>
-                  <div className="plant-info-content">
-                    {prediction.plant_info.info.split('\n').map((paragraph, index) => (
-                      <p key={index} className="plant-info-text">{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+  <div className="prediction-results">
+    <h2 className="text-xl font-bold">Identified Plant: {prediction.predicted_plant}</h2>
+
+    {prediction.plant_info && prediction.plant_info.status === "success" && (
+      <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
+        <h3 className="text-green-600 font-semibold text-lg mb-2">Plant Information:</h3>
+
+        <div
+          className="plant-info-content prose max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: marked.parse(prediction.plant_info.info),
+          }}
+        />
+      </div>
+    )}
+  </div>
+)}
+
 
           {/* Disease Detection Results */}
           {diseaseResults && renderDiseaseResults()}
