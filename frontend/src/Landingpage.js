@@ -296,7 +296,6 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
 </div>
 
       </header>
-
       <div className="landing-main">
         <div className="main-box">
           {/* Mode indicator */}
@@ -404,7 +403,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
           />
         </div>
         
-        <div className="sidebar">
+        <div className="side-box">
           {error && (
             <div className="error-message">
               <p className="error">{error}</p>
