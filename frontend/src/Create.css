@@ -1,92 +1,90 @@
 .create-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    height: 600px;
-    max-width: 500px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 600px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+}
+
+.create-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 30px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.create-button {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  background-color: #07b90d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.create-button:hover {
+  background-color: #09580d;
+}
+
+.login-link-container {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.login-link {
+  color: #4CAF50;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-link:hover {
+  color: #45a049;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 480px) {
+  .create-container {
     padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+    width: calc(100% - 20px);
   }
-  
+
   .create-text {
-    font-size: 34px;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 24px;
+    font-size: 1.5rem;
   }
-  
-  .create-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .input-field {
-    padding: 12px;
-    margin-bottom: 16px;
-    position: relative;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
+
+  .input-field,
   .create-button {
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 300px;
+    padding: 10px;
   }
-  
-  .create-button:hover {
-    background-color: #45a049;
-  }
-  
-  .login-link-container {
-    margin-top: 20px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .login-link {
-    color: #4CAF50;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
-  .login-link:hover {
-    color: #45a049;
-  }
-  
-  /* Responsive adjustments for mobile */
-  @media (max-width: 480px) {
-    .create-container {
-      padding: 15px;
-      margin: 0 10px;
-      width: calc(100% - 20px);
-    }
-    
-    .create-text {
-      font-size: 22px;
-    }
-    
-    .input-field {
-      padding: 10px;
-    }
-    
-    .create-button {
-      padding: 10px;
-    }
-  }
+}

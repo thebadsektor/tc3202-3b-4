@@ -8,6 +8,10 @@ body {
   height: 100vh;
   font-family: Arial, sans-serif;
   overflow-y: hidden;
+  background-image: url('D:/updated/tc3202-3b-4/frontend/public/plantito.jpg');
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Ensures the image is centered */
+  background-repeat: no-repeat; 
 }
 .login-text {
   font-size: 2rem;
@@ -19,7 +23,7 @@ body {
   align-items: center;
   width: 400px;
   height: 600px;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 30px;

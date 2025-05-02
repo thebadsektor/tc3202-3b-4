@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Landingpage.css";
 import Webcam from 'react-webcam';
 import  { marked } from 'marked'
+import { useNavigate } from 'react-router-dom';
 
 function Landingpage({ user, onLogout }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,7 +19,7 @@ function Landingpage({ user, onLogout }) {
   const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
   const [mode, setMode] = useState("identify"); // "identify" or "disease"
   const [diseaseResults, setDiseaseResults] = useState(null);
-  
+  const navigate = useNavigate();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -289,7 +290,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
         <div className="profile-circle-large"></div>
         <p>{user ? user.email : "User"}</p>
       </div>
-      <button className="dropdown-item">About</button>
+      <button className="dropdown-item" onClick={() => navigate('/about')}>About</button>
       <button className="dropdown-item logout" onClick={onLogout}>Log Out</button>
     </div>
   )}
