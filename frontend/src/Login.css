@@ -1,33 +1,20 @@
-body {
-  background-color: #a1b5d8;
-  margin: 0;
-  padding: 0;
+.login-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  overflow-y: hidden;
-  background-image: url('D:/updated/tc3202-3b-4/frontend/public/plantito.jpg');
-  background-size: cover; /* Ensures the image covers the entire background */
-  background-position: center; /* Ensures the image is centered */
-  background-repeat: no-repeat; 
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally */
+  justify-content: center; /* Centers items vertically */
+  height: 60vh; /* Makes it take the full viewport height */
+  width: 20vw; /* Makes it take the full viewport width */
+  text-align: center; /* Ensures text is centered */
+  background-color: #e4f0d0; /* Light background for better visibility */
 }
+
 .login-text {
   font-size: 2rem;
   margin-top: 40px;
-}
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 400px;
-  height: 600px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  text-align: center;
 }
 
 .login-container h2 {

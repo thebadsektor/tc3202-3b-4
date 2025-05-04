@@ -75,7 +75,7 @@ PLANT_CLASS_NAMES = [
 
 
 # Paths for models
-PLANT_MODEL_PATH = "D:/updated/tc3202-3b-4/backend/model/plant_identification_model.h5"
+PLANT_MODEL_PATH = "F:/BotaniSnapAI/tc3202-3b-4/backend/plant_identification_model.h5"
 
 # Global variables for models
 plant_model = None

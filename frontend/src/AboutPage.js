@@ -61,15 +61,14 @@ function AboutPage({ user, onLogout }) {
               <li>Gemini flash 2.0 for Plant Description and etc.</li>
             </ul>
           </section>
-
-          <section>
-            <h2>Developed By Group 4</h2>
+          <div classname="abtgrp">
+          <h2>Developed By Group 4</h2>
             <p>Cantal Marc Airon T.</p>
             <p>Salabsab Sean Richard</p>
             <p>Mangalindan Giro</p>
             <p>Engr. Canaling John Jasper Jr.</p>
             <p>Contact: Sulasok.tv</p>
-          </section>
+          </div>
         </main>
 
         <footer className="about-footer">

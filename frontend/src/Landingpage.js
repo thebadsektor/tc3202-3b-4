@@ -420,10 +420,14 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
           )}
           
           {loading && (
-            <div className="loading-indicator">
-              {mode === "identify" ? "Analyzing your plant image..." : "Checking for plant diseases..."}
-            </div>
-          )}
+  <div className="loading-indicator">
+    <div className="loader-animation"></div> {/* This is your spinner or animation */}
+    <div className="loading-text">
+      {mode === "identify" ? "Analyzing your plant image..." : "Checking for plant diseases..."}
+    </div>
+  </div>
+)}
+
 
           {/* Plant Identification Results */}
           {prediction && (
@@ -434,8 +438,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
       <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
         <h3 className="text-green-600 font-semibold text-lg mb-2">Plant Information:</h3>
 
-        <div
-          className="plant-info-content prose max-w-none"
+        <div className="plant-info-content prose max-w-none"
           dangerouslySetInnerHTML={{
             __html: marked.parse(prediction.plant_info.info),
           }}

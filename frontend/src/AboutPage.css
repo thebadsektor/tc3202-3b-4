@@ -1,10 +1,7 @@
 body, html {
-  margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .about-container {
@@ -19,7 +16,6 @@ body, html {
   box-shadow: none;
   line-height: 1.6;
   box-sizing: border-box;
-  margin-top: 80px; /* Space below sticky header */
 }
   
   .back-link {
@@ -35,6 +31,10 @@ body, html {
   
   .about-content section {
     margin-bottom: 2rem;
+  }
+
+  .abtgrp {
+    
   }
   
   .about-content h2 {
