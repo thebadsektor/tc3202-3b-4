@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth"; // Import getAuth
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCmacT3XL8IRyDuoDquM7-hK6XFsEB__3o", // Keep your API keys secure!
+  apiKey: "AIzaSyCmacT3XL8IRyDuoDquM7-hK6XFsEB__3o",
   authDomain: "botanisnap.firebaseapp.com",
   databaseURL: "https://botanisnap-default-rtdb.firebaseio.com",
   projectId: "botanisnap",

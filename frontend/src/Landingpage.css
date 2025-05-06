@@ -1,11 +1,3 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  overflow-y: auto;
-}
-
 .landing-header {
   position: sticky;
   top: 0;
@@ -17,7 +9,6 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -101,59 +92,41 @@ body, html {
 
 .landing-container {
   width: 100vw;
+  height: 100vh;
+  background-color: #E5F0FA;
   display: flex;
   flex-direction: column;
 }
 
 .landing-main {
   display: flex;
+  width: 100vw;
+  height: 100vh;  
   padding: 15px;
   justify-content: center;
-  gap: 10px;
+  gap: 10px;    
 }
 
-.main-box, .side-box {
-  flex: 1;
-  max-width: 50%; /* Let them split the frame */
-  max-height: fit-content;
-}
-
-@media (max-width: 600px) {
-  .landing-main {
-    flex-direction: column;
-  }
-
-  .main-box, .side-box {
-    max-width: 100%; /* Full width on mobile */
-    flex: 1;
-  }
-}
-
-.side-box {/*Result box*/
-  background: #f4f4f4;
-  max-height: 80vh;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.side-box {
-  max-height: 80vh;
+.prediction-results {
+  background: #ffffff;
+  height: 75vh;
   overflow-y: auto;
-  scrollbar-width: thin;
-}
-
-
-.main-box {/*main box*/
-  background: #4a9148;
-  max-height: 80vh;
+  width: 95vh;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  justify-content: center;
   position: relative;
 }
 
+.main-box {/*main box*/
+  background: #4a9148;
+  height: 75vh;
+  width: 95vh;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  position: relative;
+}
 
 .action-button {
   background: white;
@@ -171,19 +144,18 @@ body, html {
 }
 
 .camera-preview {
-  width: 70%;
-  height:70%;
+  width: 50vh;
+  height: 45vh;
   object-fit: cover;
   transform: scaleX(-1);
 }
 
 .preview-image {
-  max-width: 70%;
-  max-height: 70%;
+  height: 45vh;
+  width: 50vh;
   object-fit: cover;
   image-rendering: auto;
 }
-
 
 .camera-container, .preview-container {
   display: flex;
@@ -204,21 +176,23 @@ body, html {
   margin: 0;
 }
 
-.prediction-results li {
-  margin: 10px 0;
-}
-
 .error {
   color: red;
   font-weight: bold;
   margin-top: 10px;
 }
 
-.plant-info-container h2 {
+.prediction-results h2 {
   color: #2e7d32;
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #c8e6c9;
+  border-bottom: 2px solid #c8e6c9;
+}
+
+.prediction-results h3 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
 }
 
 .plant-info-content {
@@ -226,38 +200,39 @@ body, html {
   line-height: 1.6;
 }
 
-.plant-info-heading {
-  font-weight: 600;
-  color: #1b5e20;
-  margin-top: 15px;
-  margin-bottom: 8px;
-}
-
-.plant-info-bullet {
-  margin: 8px 0;
-  padding-left: 15px;
-  position: relative;
-}
-
-.plant-info-bullet:before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: #4caf50;
-}
-
 .plant-info-text {
   margin-bottom: 10px;
 }
 
 .loading-indicator {
-  padding: 20px;
-  text-align: center;
-  color: #666;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.loading-indicator {
+ position: relative;
+ left: 17vh;
+ padding-top: 40vh;
+}
+
+.loader-animation {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #4CAF50; /* green for plants */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+.loading-text {
+  font-size: 1rem;
+  color: #333;
+  animation: fadeIn 1s ease-in;
+}
+
 
 /* Mode Toggle Styles */
 .mode-indicator {
@@ -313,4 +288,9 @@ body, html {
   margin-top: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #33691e;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

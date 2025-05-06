@@ -24,20 +24,20 @@ function Landingpage({ user, onLogout }) {
   const canvasRef = useRef(null);
 
   const getVideoConstraints = () => {
-  if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
+    if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
+      return {
+        deviceId: { exact: availableCameras[currentCameraIndex].deviceId },
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+      };
+    }
     return {
-      deviceId: availableCameras[currentCameraIndex].deviceId,
-      width: { ideal: 1920 }, // High-resolution
-      height: { ideal: 1080 },
-    };
-  } else {
-    return {
-      facingMode: facingMode,
+      facingMode: { ideal: facingMode }, // 'user' or 'environment'
       width: { ideal: 1920 },
       height: { ideal: 1080 },
     };
-  }
-};
+  };
+  
 
 const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
   return new Promise((resolve, reject) => {
@@ -91,22 +91,18 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
     }
   }, []);
 
-  const startCamera = () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode } })
-        .then(stream => {
-          setIsCameraActive(true);
-          setError(null);
-          // You can optionally display the camera stream in a video element or use react-webcam as you are doing
-        })
-        .catch(err => {
-          console.error("Camera access error:", err);
-          setError("Camera access denied. Please allow camera permissions.");
-        });
-    } else {
-      setError("Camera access is not supported by your browser.");
+  const startCamera = async () => {
+    try {
+      const constraints = getVideoConstraints();
+      await navigator.mediaDevices.getUserMedia({ video: constraints });
+      setIsCameraActive(true);
+      setError(null);
+    } catch (err) {
+      console.error("Camera access error:", err);
+      setError("Camera access denied. Please allow camera permissions.");
     }
   };
+  
   
   const stopCamera = () => {
     setIsCameraActive(false);
@@ -318,6 +314,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
                 videoConstraints={getVideoConstraints()}
                 className="camera-preview"
                 mirrored={facingMode === "user"}
+                playsInline // ✅ This is crucial for iOS
                 onUserMediaError={(err) => {
                   console.error("Webcam error:", err);
                   setError("Camera access error: " + (err.message || "Could not access camera"));
@@ -405,28 +402,34 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
         </div>
         
         <div className="side-box">
-          {error && (
-            <div className="error-message">
-              <p className="error">{error}</p>
-              {isCameraActive && (
-                <button 
-                  className="action-button small" 
-                  onClick={startCamera}
-                >
-                  Retry Camera
-                </button>
-              )}
-            </div>
-          )}
-          
+        {error && (
+          <div className="error-message">
+            <p className="error">{error}</p>
+            {error.includes("denied") && (
+              <p className="small-text">
+                Tip: Check if your browser has permission to access the camera. On iOS, go to Settings &gt; Safari &gt; Camera and set to “Allow”.
+              </p>
+            )}
+            <button 
+              className="action-button small" 
+              onClick={startCamera}
+            >
+              Retry Camera
+            </button>
+          </div>
+        )}
           {loading && (
-            <div className="loading-indicator">
-              {mode === "identify" ? "Analyzing your plant image..." : "Checking for plant diseases..."}
-            </div>
-          )}
+  <div className="loading-indicator">
+    <div className="loader-animation"></div> {/* This is your spinner or animation */}
+    <div className="loading-text">
+      {mode === "identify" ? "Analyzing your plant image..." : "Checking for plant diseases..."}
+    </div>
+  </div>
+)}
+
 
           {/* Plant Identification Results */}
-          {prediction && (
+          {!loading && prediction && (
   <div className="prediction-results">
     <h2 className="text-xl font-bold">Identified Plant: {prediction.predicted_plant}</h2>
 
@@ -434,8 +437,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
       <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
         <h3 className="text-green-600 font-semibold text-lg mb-2">Plant Information:</h3>
 
-        <div
-          className="plant-info-content prose max-w-none"
+        <div className="plant-info-content prose max-w-none"
           dangerouslySetInnerHTML={{
             __html: marked.parse(prediction.plant_info.info),
           }}

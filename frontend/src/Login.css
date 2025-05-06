@@ -8,7 +8,7 @@ body {
   height: 100vh;
   font-family: Arial, sans-serif;
   overflow-y: hidden;
-  background-image: url('D:/updated/tc3202-3b-4/frontend/public/plantito.jpg');
+  background-image: url('/public/concentric_bg.png');
   background-size: cover; /* Ensures the image covers the entire background */
   background-position: center; /* Ensures the image is centered */
   background-repeat: no-repeat; 
