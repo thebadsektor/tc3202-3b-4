@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Login from './Login';
 import Create from './Create';
-import SplashScreen from './SplashScreen'; // Add this import
+import SplashScreen from './SplashScreen';
 import Landingpage from './Landingpage';
-import AboutPage from './AboutPage'; // ✅ Import AboutPage
+import AboutPage from './AboutPage';
 import { auth } from "./firebaseConfig";
 import './App.css';
 
