@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Login from './Login';
 import Create from './Create';
+import SplashScreen from './SplashScreen'; // Add this import
 import Landingpage from './Landingpage';
 import AboutPage from './AboutPage'; // ✅ Import AboutPage
 import { auth } from "./firebaseConfig";
@@ -12,7 +13,9 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -21,7 +24,7 @@ function App() {
     });
     return () => unsubscribe();
   }, []);
-
+  
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -38,7 +41,9 @@ function App() {
     setIsRegistering(false);
   };
 
+  if (showSplash) return <SplashScreen onStart={() => setShowSplash(false)} />;
   if (loading) return <div>Loading...</div>;
+  
 
   return (
     <Router>

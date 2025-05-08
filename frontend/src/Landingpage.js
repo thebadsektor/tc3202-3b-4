@@ -279,6 +279,9 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
   return (
     <div className="landing-container">
       <header className="landing-header">
+        <div className="logo-title">
+          <img src="BSnaplg.png" alt="BotaniSnap Logo" className="logo-image"/>
+        </div>
         <h2>BotaniSnap-AI</h2>
         <div className="user-menu">
   <div className="menu-trigger" onClick={() => setMenuOpen(!menuOpen)}>

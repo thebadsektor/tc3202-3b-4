@@ -33,6 +33,15 @@ function AboutPage({ user, onLogout }) {
       <div className="about-container">
         <main className="about-content">
           <section>
+          <div classname="abtgrp">
+          <h2>Developed By Group 4</h2>
+            <p>Dr. Boss. LTFRB. Cantal, John Marc Airon T.</p>
+            <p>Phd. PWD. Salabsab, John Richard Sean B.</p>
+            <p>RN. LGBTQ Mangalindan, John Giro</p>
+            <p>Engr. LTO. HPG. Canaling John Jasper Jr.</p>
+            <p>Contact: Sulasok.tv</p>
+          </div>
+
             <h2>Our Mission</h2>
             <p>
               BotaniSnap-AI aims to make plant identification and plant health assessment easy and accessible for everyone...
@@ -61,14 +70,6 @@ function AboutPage({ user, onLogout }) {
               <li>Gemini flash 2.0 for Plant Description and etc.</li>
             </ul>
           </section>
-          <div classname="abtgrp">
-          <h2>Developed By Group 4</h2>
-            <p>Cantal Marc Airon T.</p>
-            <p>Salabsab Sean Richard</p>
-            <p>Mangalindan Giro</p>
-            <p>Engr. Canaling John Jasper Jr.</p>
-            <p>Contact: Sulasok.tv</p>
-          </div>
         </main>
 
         <footer className="about-footer">

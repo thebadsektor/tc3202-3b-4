@@ -83,5 +83,5 @@ body, html {
   }
 
   .about-container {
-    margin-top: 80px; /* to add space below sticky header */
+    margin-top: 5px; /* to add space below sticky header */
   }
