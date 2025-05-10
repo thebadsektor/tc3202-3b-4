@@ -191,7 +191,11 @@ Step 3: Enter the cURL Command to Test Plant Identification
 ![Disease Detection](detectdiseaseresult.png)
 
 ### Gemini-generated Care Tips
-![Care Info](gemini.png)
+<p align="center">
+  <img src="gemini.png" alt="Care Info" />
+</p>
+
+
 
 ## Project Structure
 Explain the structure of the project directory. Example:
@@ -227,6 +231,7 @@ Explain the structure of the project directory. Example:
 │   │   └── splashscreen.js
 │   ├── package-lock.json
 │   └── package.json
+├── LICENSE.txt
 └── README.md
 ```
 
