@@ -1,6 +1,6 @@
 # TC-3202 [Project Title]
 
-![Project Banner](https://drive.google.com/file/d/17jlK9o0drFvvv50WJRKAgDKrE4p3E_ko/view?usp=sharing)
+![Project Banner](https://drive.google.com/file/d/12zpLQPnp6cw2YyI2FvayBM31CmmstsZQ/view?usp=sharing)
 
 ## Table of Contents
 - [Introduction](#introduction)
