@@ -184,14 +184,13 @@ Step 3: Enter the cURL Command to Test Plant Identification
 - Screenshots or GIFs showcasing key functionalities (optional).
 
 ### Plant Identification Example
-![Plant Prediction](public/plantidresult.png)
+![Plant Prediction](assets/plantidresult.png)
 
 ### Disease Detection Example
-![Disease Detection](public/detectdiseaseresult.png)
+![Disease Detection](assets/detectdiseaseresult.png)
 
 ### Gemini-generated Care Tips
-![Care Info](public/gemini.png)
-
+![Care Info](assets/gemini.png)
 
 ![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
 
