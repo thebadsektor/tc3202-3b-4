@@ -193,24 +193,40 @@ Step 3: Enter the cURL Command to Test Plant Identification
 ## Project Structure
 Explain the structure of the project directory. Example:
 ```bash
-
-```
 .
-│   ├── 📂 components/
-│   │   ├── <component>
-├── 📂 src/
-│   ├── 📂 components/
-│   │   ├── <component>
-│   │   ├── <anotherComponent>
-│   │   └── ...
-│   ├── 📂 pages/
-│   └── 📂 utils/
-├── 📂 public/
-├── 📂 tests/
-├── .env.example
-├── package.json
+├── 📂 backend/
+│   ├── 📂 model/
+│   │   └── plant_identification_model.h5
+│   ├── 📂 venv
+│   ├── requirements.txt
+│   └── app.py
+├── 📂 frontend/
+│   ├── 📂 node_modules
+│   ├── 📂 public
+│   ├── 📂 src/
+│   │   ├── AboutPage.css
+│   │   ├── AboutPage.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── Create.css
+│   │   ├── Create.js
+│   │   ├── firebaseConfigs.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── Landingpage.css
+│   │   ├── Landingpage.js
+│   │   ├── Login.css
+│   │   ├── Login.js
+│   │   ├── reportWebVitals.js
+│   │   ├── setup.js
+│   │   ├── splashscreen.css
+│   │   └── splashscreen.js
+│   ├── package-lock.json
+│   └── package.json
 └── README.md
 ```
+
 
 ## Contributors
 
@@ -218,8 +234,8 @@ List all the team members involved in the project. Include their roles and respo
 
 - **[Cantal, Marc Airon T.]**: Lead Developer, Backend Developer
 - **[Salabsab, Ridchard Sean]**: Frontend Developer, UI/UX Designer
-- **[Mangalindan, Giro]**:
-- **[Canaling, John Jasper]**: 
+- **[Mangalindan, Giro]**: Documentation, Grapics
+- **[Canaling, John Jasper]**: Documentation, Research Support
 - **Gerald Villaran**: Course Instructor
 
 ## Project Timeline
@@ -232,29 +248,70 @@ Outline the project timeline, including milestones or deliverables. Example:
 - **Week 11-12**: Testing and debugging.
 - **Week 13-14**: Final presentation and documentation.
 
+- **Week 1-2**: Research and Project Planning
+Includes initial exploration of datasets and preliminary setup for the machine learning model.
+
+- **Week 3-4**: Design and Setup
+Covers UI/UX planning, system architecture design, and development environment configuration.
+
+- **Week 5-6**: Training Our Model
+Involves data preprocessing, model selection, and training the machine learning model using selected datasets.
+
+- **Week 7-10**: Implementation
+Development of core features, frontend-backend integration, and ML model integration.
+
+- **Week 11-12**: Testing and Debugging
+Functionality testing, bug fixing, and performance optimization.
+
+- **Week 13-14**: Final Presentation and Documentation
+Completion of project reports, presentation materials, and user documentation.
+
 ## Changelog
 
-### [Version 1.0.0] - 2024-09-07
-- Initial release of the project.
-- Added basic functionality for [Feature 1], [Feature 2], and [Feature 3].
 
-### [Version 1.1.0] - 2024-09-14
-- Improved user interface for [Feature 1].
-- Fixed bugs related to [Feature 2].
-- Updated project documentation with setup instructions.
+### [Version 1.0.0] - 2025-00-00
+Implemented plant identification using a custom-trained model.
 
-### [Version 1.2.0] - 2024-09-21
-- Added new functionality for [Feature 4].
-- Refactored codebase for better performance.
-- Added unit tests for [Feature 3] and [Feature 4].
+Added image upload via the web interface and displayed prediction results.
 
+Enabled classification for common houseplants.
+
+### [Version 1.1.0] - 2025-00-00
+Improved user interface for plant result display.
+
+Updated documentation with setup, usage instructions.
+
+### [Version 1.2.0] - 2025-00-00
+Integrated disease detection using Hugging Face model.
+
+Refactored Flask backend for faster API response and better error handling.
+
+### [Version 1.3.0] - 2025-00-00
+Integrated Gemini 2.0 Flash API for plant descriptions and care tips.
+
+Added dynamic care guides and common issue info per predicted plant/disease.
+
+Enhanced UI to show AI-generated plant care details.
+
+### [Version 1.4.0] - 2025-00-00
+Added user login (basic authentication).
+
+Optimized image preprocessing and model loading on backend.
 
 ## Acknowledgments
 
-Acknowledge any resources, mentors, or external tools that helped in completing the project.
+[Mr.Gerald Villaran] for guidance and support throughout the development process.
 
 This project was built from [BotaniSnap-AI](https://github.com/thebadsektor/tc3202-3b-4.git), created by [Original Author's Name]. You can view the original repository [here](https://github.com/thebadsektor/tc3202-3b-4.git).
 
+Hugging Face for the plant disease detection model and resources for image classification.
+
+Google Generative AI (Gemini) for the plant care tips and descriptions.
+
 ## License
 
-Specify the project's license. For starters, adapt the license of the original repository.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+The MIT License allows anyone to use, modify, and distribute this software freely, including for commercial purposes, as long as the copyright notice and permission notice are included in all copies or substantial portions of the software. This software is provided "as is", without warranty of any kind.
+
+This section references your license file and gives a clear explanation of the terms, as per the MIT License. You can link it to the actual LICENSE file in your repository for users to easily access the full terms.
