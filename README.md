@@ -179,9 +179,7 @@ Step 3: Enter the cURL Command to Test Plant Identification
       ]
    }
    ```
-- Databases: [Firebase ]
-
-- Screenshots or GIFs showcasing key functionalities (optional).
+- **Database Used:** [Firebase](https://firebase.google.com/)
 
 ### Plant Identification Example
 ![Plant Prediction](plantidresult.png)
@@ -191,12 +189,6 @@ Step 3: Enter the cURL Command to Test Plant Identification
 
 ### Gemini-generated Care Tips
 ![Care Info](gemini.png)
-
-![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
-
-Another Screenshot
-
-![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
 
 ## Project Structure
 Explain the structure of the project directory. Example:
