@@ -459,24 +459,36 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
 
           {/* Plant Identification Results */}
           {!loading && prediction && (
-  <div className="prediction-results">
-    <h2 className="text-xl font-bold">Identified Plant: {prediction.predicted_plant}</h2>
-
-    {prediction.plant_info && prediction.plant_info.status === "success" && (
-      <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
-        <h3 className="text-green-600 font-semibold text-lg mb-2">Plant Information:</h3>
-
-        <div className="plant-info-content prose max-w-none"
-          dangerouslySetInnerHTML={{
-            __html: marked.parse(prediction.plant_info.info),
-          }}
-        />
-      </div>
-    )}
-  </div>
+   <div className="prediction-results">
+   {prediction.accuracy < 60 ? (
+     <div className="low-confidence-message">
+       <h3>Sorry. I couldn't find this plant. Please Take or Upload another photo</h3>
+       <button 
+         className="action-button" 
+         onClick={resetCapture}
+       >
+         Try Again
+       </button>
+     </div>
+   ) : (
+     <>
+       <h2 className="text-xl font-bold">Identified Plant: {prediction.predicted_plant}</h2>
+       
+       {prediction.plant_info && prediction.plant_info.status === "success" && (
+         <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
+           <h3 className="text-green-600 font-semibold text-lg mb-2">Plant Information:</h3>
+   
+           <div className="plant-info-content prose max-w-none"
+             dangerouslySetInnerHTML={{
+               __html: marked.parse(prediction.plant_info.info),
+             }}
+           />
+         </div>
+       )}
+     </>
+   )}
+ </div>
 )}
-
-
           {/* Disease Detection Results */}
           {diseaseResults && renderDiseaseResults()}
         </div>

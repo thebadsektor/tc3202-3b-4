@@ -259,7 +259,7 @@
 
 .loading-text {
   font-size: 1rem;
-  color: #333;
+  color: #fffcfc;
   animation: fadeIn 1s ease-in;
 }
 
