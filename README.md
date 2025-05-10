@@ -1,192 +1,157 @@
-TC-3202 BotaniSnap-AI
-Capstone Project - AI-Powered Plant Identifier and Disease Detector
+# TC-3202 [Project Title]
 
-Table of Contents
-Introduction
+![Project Banner](https://via.placeholder.com/1200x400.png?text=Project+Banner+Placeholder)
 
-Project Overview
+## Table of Contents
+- [Introduction](#introduction)
+- [Project Overview](#project-overview)
+- [Objectives](#objectives)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
+- [Usage Instructions](#usage-instructions)
+- [Project Structure](#project-structure)
+- [Contributors](#contributors)
+- [Chagelog](#changelog)
+- [Acknowledgments](#acknowledgments)
+- [License](#license)
 
-Objectives
+---
 
-Features
+## Introduction
+Provide a brief introduction to the project. Explain the purpose, scope, and the problem it solves in a few sentences.
 
-Technologies Used
+## Project Overview
+Describe the project in detail. Include:
+- The project's background or context.
+- Its target audience or users.
+- Any real-world applications or potential impact.
 
-Setup and Installation
+## Objectives
+State the main objectives of the capstone project, such as:
+- Develop a solution for [problem].
+- Implement features to [goal].
+- Test and validate [key aspect].
 
-Usage Instructions
+## Features
+List the main features of the project:
+- Feature 1: Brief description.
+- Feature 2: Brief description.
+- Feature 3: Brief description.
 
-Project Structure
+## Technologies Used
+Mention the tools, frameworks, and technologies used in the project:
+- Programming Languages: [e.g., Python, JavaScript, etc.]
+- Frameworks/Libraries: [e.g., React, Flask, etc.]
+- Databases: [e.g., MySQL, MongoDB, etc.]
+- Other Tools: [e.g., Git, Docker, etc.]
 
-Contributors
+## Setup and Installation
+Step-by-step instructions for setting up the project locally.
 
-Project Timeline
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-repo-url.git
+   ```
+2. **Install dependencies:**
+	- If using `npm`:
+   ```bash
+   git clone https://github.com/your-repo-url.git
+   ```
+   - If using `pip` (for Python projects):
+   ```bash
+   git clone https://github.com/your-repo-url.git
+   ```
+3. **Configure environment variables (if any)**: Provide instructions for setting up .env files or any other required configurations.
+   ```bash
+   git clone https://github.com/your-repo-url.git
+   ```
+4. **Run the project:**
+   - For web projects:
+   ```bash
+   npm start
+   ```
+   - IFor backend services:
+   ```bash
+   python app.py
+   ```
 
-Changelog
+**Note:** If your project has external depencies like XAMPP, MySQL, special SDK, or other environemnt setup, create another section for it.
 
-Acknowledgments
+## Usage Instructions
+Provide detailed instructions on how to use the project after setup:
+- How to access the application.
+- Example commands or API calls (if applicable).
+- Databases: [e.g., MySQL, MongoDB, etc.]
+- Screenshots or GIFs showcasing key functionalities (optional).
 
-License
+![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
 
-Introduction
-BotaniSnap-AI is a smart, AI-powered plant identification and disease detection web application. It aims to help gardeners, farmers, and plant enthusiasts accurately identify plants and diagnose diseases simply by uploading an image.
+Another Screenshot
 
-Project Overview
-The project integrates computer vision, machine learning, and a user-friendly frontend to support plant care and diagnosis.
+![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
 
-Background: Misidentification of plants or plant diseases can lead to ineffective care or crop loss. This project addresses that by leveraging AI for real-time recognition.
-
-Target Audience: Plant lovers, agriculture students, farmers, hobbyists, and educators.
-
-Real-World Application: Promotes sustainable agriculture, helps prevent disease spread, and serves as an educational tool.
-
-Objectives
-Develop a web-based tool for plant species identification and disease detection.
-
-Integrate Roboflow and Gemini API for accurate predictions and plant care tips.
-
-Validate the accuracy of the model with real-world plant datasets.
-
-Features
-Plant Identification: Upload an image to get the species name.
-
-Disease Detection: Detect common plant diseases from leaf images.
-
-Care Tips Generator: Auto-generated care tips based on plant type using Gemini API.
-
-User-Friendly Interface: Simple and responsive web UI for ease of use.
-
-Technologies Used
-Programming Languages: Python, JavaScript
-
-Frameworks/Libraries: React, Flask, TensorFlow
-
-APIs: Roboflow, Gemini 2.0 Flash (for care tips)
-
-Databases: (None yet or mention Firebase/MySQL if used)
-
-Other Tools: Git, GitHub, Postman
-
-Setup and Installation
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/thebadsektor/tc3202-3b-4.git
-cd tc3202-3b-4
-2. Backend Setup (Python + Flask)
-bash
-Copy
-Edit
-cd backend
-pip install -r requirements.txt
-3. Frontend Setup (React)
-bash
-Copy
-Edit
-cd frontend
-npm install
-4. Configure Environment Variables
-Create .env files in both backend/ and frontend/ directories. Include API keys for Roboflow and Gemini (sample below):
-
-backend/.env
-
-ini
-Copy
-Edit
-ROBOFLOW_API_KEY=your_api_key
-GEMINI_API_KEY=your_api_key
-5. Run the Project
-Run Backend
-bash
-Copy
-Edit
-cd backend
-python app.py
-Run Frontend
-bash
-Copy
-Edit
-cd frontend
-npm start
-Usage Instructions
-Open your browser and navigate to http://localhost:3000
-
-Upload a clear photo of a plant or leaf
-
-Wait for AI results to show species and possible diseases
-
-Read generated care tips provided on the results page
-
-You can test API calls using Postman or cURL for backend endpoints (if applicable).
-
-Project Structure
-java
-Copy
-Edit
+## Project Structure
+Explain the structure of the project directory. Example:
+```bash
 .
-├── backend/
-│   ├── venv
-│   ├── model/
-│   │   ├── plant_identification_model.h5
-│   ├── routes/
-│   └── app.py
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── utils/
-│   ├── public/
-│   ├── node modeules/
-│   └── package.json
-├── tests/
+├── 📂 src/
+│   ├── 📂 components/
+│   │   ├── <component>
+│   │   ├── <anotherComponent>
+│   │   └── ...
+│   ├── 📂 pages/
+│   └── 📂 utils/
+├── 📂 public/
+├── 📂 tests/
+├── .env.example
+├── package.json
 └── README.md
+```
 
-Contributors
-[Name 1]: Lead Developer, Backend Developer
+## Contributors
 
-[Name 2]: Frontend Developer, UI/UX Designer
+List all the team members involved in the project. Include their roles and responsibilities:
 
-Gerald Villaran: Course Instructor
+- **[Cantal, Marc Aiton T.]**: Lead Developer, Backend Developer
+- **[Salabsab, Ridchard Sean]**: Frontend Developer, UI/UX Designer
+- **[Mangalindan, Giro]**:
+- **[Canaling, John Jasper]**: 
+- **Gerald Villaran**: Course Instructor
 
-Project Timeline
-Week 1-2: Research and project planning
+## Project Timeline
 
-Week 3-5: Design and setup
+Outline the project timeline, including milestones or deliverables. Example:
 
-Week 6-10: Implementation
+- **Week 1-2**: Research and project planning.
+- **Week 3-5**: Design and setup.
+- **Week 6-10**: Implementation.
+- **Week 11-12**: Testing and debugging.
+- **Week 13-14**: Final presentation and documentation.
 
-Week 11-12: Testing and debugging
+## Changelog
 
-Week 13-14: Final presentation and documentation
+### [Version 1.0.0] - 2024-09-07
+- Initial release of the project.
+- Added basic functionality for [Feature 1], [Feature 2], and [Feature 3].
 
-Changelog
-[Version 1.0.0] - 2024-09-07
+### [Version 1.1.0] - 2024-09-14
+- Improved user interface for [Feature 1].
+- Fixed bugs related to [Feature 2].
+- Updated project documentation with setup instructions.
 
-Initial release of the project
+### [Version 1.2.0] - 2024-09-21
+- Added new functionality for [Feature 4].
+- Refactored codebase for better performance.
+- Added unit tests for [Feature 3] and [Feature 4].
 
-Added basic functionality for plant detection, disease classification, and care tips
 
-[Version 1.1.0] - 2024-09-14
+## Acknowledgments
 
-Improved user interface for plant detection
+Acknowledge any resources, mentors, or external tools that helped in completing the project.
 
-Fixed bugs related to disease classification
+This project was built from [BotaniSnap-AI](https://github.com/thebadsektor/tc3202-3b-4.git), created by [Original Author's Name]. You can view the original repository [here](https://github.com/thebadsektor/tc3202-3b-4.git).
 
-Updated project documentation with setup instructions
+## License
 
-[Version 1.2.0] - 2024-09-21
-
-Added new functionality for offline image preview
-
-Refactored codebase for better performance
-
-Added unit tests for disease and care tip generation modules
-
-Acknowledgments
-This project was inspired by the original repository tc3202-3b-4.
-Special thanks to the developers behind the Roboflow API and Google’s Gemini model.
-Gratitude to our mentor Gerald Villaran for his guidance.
-
-License
-This project adopts the same license as the original repository. See the LICENSE file for details.
+Specify the project's license. For starters, adapt the license of the original repository.
