@@ -404,7 +404,7 @@ function Landingpage({ user, onLogout }) {
           {/* Plant Identification Results */}
           {!loading && prediction && (
    <div className="prediction-results">
-   {prediction.accuracy < 60 ? (
+   {prediction.accuracy < 70 ? (
      <div className="low-confidence-message">
        <h3>Sorry. I couldn't find this plant. Please Take or Upload another photo</h3>
        <button 
