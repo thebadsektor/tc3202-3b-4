@@ -4,13 +4,35 @@
   z-index: 1000;
   max-width: 100%;
   height: 40px;
-  background: #72bf44;
+  background: #173a00;
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+
+
+.BotaniText{
+  font-size: 1.5rem;
+  color: #fdfdfd;
+  font-weight: bold;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.logo-header {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 70px; /* adjust as needed */
+  height: 70px;
+  object-fit: contain;
+}
+
 
 .dropdown-menu {
   position: absolute;
@@ -49,6 +71,8 @@
   margin-left: 75px;
   margin-bottom: 20px;
 }
+
+
 
 .dropdown-item {
   display: block;
@@ -91,21 +115,29 @@
 }
 
 .landing-container {
+  background-image: url('D:\updated\tc3202-3b-4\frontend\public\aiii.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   width: 100vw;
   height: 100vh;
-  background-color: #E5F0FA;
   display: flex;
   flex-direction: column;
 }
 
 .landing-main {
-  display: flex;
+  background-image: url('D:\updated\tc3202-3b-4\frontend\public\aiii.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   width: 100vw;
-  height: 100vh;  
-  padding: 15px;
+  height: 100vh;
+  display: flex;
   justify-content: center;
-  gap: 10px;    
+  gap: 10px;
+  padding: 15px;
 }
+
 
 .prediction-results {
   background: #ffffff;
@@ -113,7 +145,6 @@
   overflow-y: auto;
   width: 95vh;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 8px;
   position: relative;
 }
@@ -123,7 +154,6 @@
   height: 75vh;
   width: 95vh;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 8px;
   position: relative;
 }

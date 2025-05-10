@@ -22,7 +22,7 @@ function Landingpage({ user, onLogout }) {
   const navigate = useNavigate();
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-
+  
   const getVideoConstraints = () => {
     if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
       return {
@@ -275,15 +275,44 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
   return (
     <div className="landing-container">
       <header className="landing-header">
-        <h2>BotaniSnap-AI</h2>
+        <div className="logo-header">
+        <img
+          src={`${process.env.PUBLIC_URL}/logo.png`}
+          alt="BotaniSnap-AI Logo"
+          className="logo-image"
+        />
+        <h2 className="BotaniText">BotaniSnap-AI</h2>
+      </div>
+
         <div className="user-menu">
   <div className="menu-trigger" onClick={() => setMenuOpen(!menuOpen)}>
-    <div className="profile-circle"></div>
+  <div
+  className="profile-circle"
+  style={{
+    backgroundImage: `url(${process.env.PUBLIC_URL + '/profile.jpg'})`,
+    width: '50px',
+    height: '50px',
+    borderRadius: '50%',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }}
+></div>
+
   </div>
   {menuOpen && (
     <div className="dropdown-menu">
       <div className="profile-info">
-        <div className="profile-circle-large"></div>
+        <div
+      className="profile-circle-large"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL + '/profile.jpg'})`,
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+        ></div>
         <p>{user ? user.email : "User"}</p>
       </div>
       <button className="dropdown-item" onClick={() => navigate('/about')}>About</button>
