@@ -1,8 +1,9 @@
 # TC-3202 [BotaniSnap-AI]
 
 <p align="center">
-  <img src="https://drive.google.com/file/d/1R_mfcUJYr7G8gLl4CW7efHPVRIUqLLTo/view?usp=sharing" alt="Project Banner" />
+  <img src="https://drive.google.com/uc?export=view&id=1R_mfcUJYr7G8gLl4CW7efHPVRIUqLLTo" alt="Project Banner" />
 </p>
+
 
 
 ## Table of Contents
