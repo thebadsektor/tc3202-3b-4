@@ -81,7 +81,7 @@ Step-by-step instructions for setting up the project locally.
   - On Windows:
    ```bash
    python -m venv venv
-   .\venv\Scripts\activate
+   . venv\Scripts\activate
    ```
    - On macOS/Linux:
    ```bash
@@ -142,7 +142,7 @@ Step 1: Open a New Terminal and Navigate to the Backend Folder
 Step 2: Activate the Virtual Environment
    - On Windows:
    ```bash
-   .\venv\Scripts\activate
+   . venv\Scripts\activate
    ```
    - On macOS/Linux:
    ```bash
@@ -180,7 +180,18 @@ Step 3: Enter the cURL Command to Test Plant Identification
    }
    ```
 - Databases: [Firebase ]
+
 - Screenshots or GIFs showcasing key functionalities (optional).
+
+### Plant Identification Example
+![Plant Prediction](assets/plant_upload_result.png)
+
+### Disease Detection Example
+![Disease Detection](assets/disease_detection_result.png)
+
+### Gemini-generated Care Tips
+![Care Info](assets/gemini_output.png)
+
 
 ![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
 
