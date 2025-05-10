@@ -302,7 +302,7 @@ Optimized image preprocessing and model loading on backend.
 
 [Mr.Gerald Villaran] for guidance and support throughout the development process.
 
-This project was built from [BotaniSnap-AI](https://github.com/thebadsektor/tc3202-3b-4.git), created by [Original Author's Name]. You can view the original repository [here](https://github.com/thebadsektor/tc3202-3b-4.git).
+This project was built from [BotaniSnap-AI](https://github.com/thebadsektor/tc3202-3b-4.git), created by [Group 4]. You can view the original repository [here](https://github.com/thebadsektor/tc3202-3b-4.git).
 
 Hugging Face for the plant disease detection model and resources for image classification.
 
