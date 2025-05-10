@@ -1,6 +1,6 @@
 // src/Login.js
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { auth } from "./firebaseConfig"; // Assuming firebaseConfig.js is in src/
 import "./Login.css";                  // Make sure this CSS file has the styles from your design
 
@@ -49,20 +49,41 @@ function Login({ onSwitchToRegister, onLoginSuccess }) {
     }
   };
 
-  // --- Placeholder Handlers for Social Logins ---
-  // TODO: Implement Firebase Social Sign-in (signInWithPopup)
-  const handleFacebookLogin = () => {
-    setError("Facebook login not implemented yet.");
-    console.log("Attempting Facebook Sign in (not implemented)");
-    // Example: signInWithPopup(auth, new FacebookAuthProvider()).then(...).catch(...);
+  // Firebase Sign In Logic for Google Login
+  const handleGoogleLogin = async () => {
+    setError(""); // Clear previous errors
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Logged in successfully via Google:", user);
+      if (onLoginSuccess) {
+        onLoginSuccess(user);
+      }
+    } catch (error) {
+      console.error("Error logging in with Google:", error);
+      setError('Failed to log in with Google. Please try again.');
+    }
   };
 
-  const handleGoogleLogin = () => {
-    setError("Google login not implemented yet.");
-    console.log("Attempting Google Sign in (not implemented)");
-     // Example: signInWithPopup(auth, new GoogleAuthProvider()).then(...).catch(...);
+  // Firebase Sign In Logic for Facebook Login
+  const handleFacebookLogin = async () => {
+    setError(""); // Clear previous errors
+    const provider = new FacebookAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Logged in successfully via Facebook:", user);
+      if (onLoginSuccess) {
+        onLoginSuccess(user);
+      }
+    } catch (error) {
+      console.error("Error logging in with Facebook:", error);
+      setError('Failed to log in with Facebook. Please try again.');
+    }
   };
-  // --- ---
 
   return (
     <div className="login-container">
@@ -104,7 +125,7 @@ function Login({ onSwitchToRegister, onLoginSuccess }) {
         <span>OR</span>
       </div>
 
-      {/* Social Login Buttons (Placeholders) */}
+      {/* Social Login Buttons */}
       <button type="button" className="fb-button" onClick={handleFacebookLogin}>
         Sign in with Facebook
       </button>
