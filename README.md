@@ -193,7 +193,11 @@ Step 3: Enter the cURL Command to Test Plant Identification
 ## Project Structure
 Explain the structure of the project directory. Example:
 ```bash
+
+```
 .
+│   ├── 📂 components/
+│   │   ├── <component>
 ├── 📂 src/
 │   ├── 📂 components/
 │   │   ├── <component>
