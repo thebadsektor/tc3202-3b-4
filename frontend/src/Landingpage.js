@@ -1,5 +1,5 @@
 // src/Landingpage.js
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./Landingpage.css";
 import Webcam from 'react-webcam';
@@ -14,9 +14,7 @@ function Landingpage({ user, onLogout }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  const [facingMode, setFacingMode] = useState("environment"); // Default to rear camera
-  const [availableCameras, setAvailableCameras] = useState([]);
-  const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
+  const [facingMode] = useState("environment"); // Default to rear camera
   const [mode, setMode] = useState("identify"); // "identify" or "disease"
   const [diseaseResults, setDiseaseResults] = useState(null);
   const navigate = useNavigate();
@@ -24,13 +22,6 @@ function Landingpage({ user, onLogout }) {
   const canvasRef = useRef(null);
   
   const getVideoConstraints = () => {
-    if (availableCameras.length > 0 && availableCameras[currentCameraIndex]?.deviceId) {
-      return {
-        deviceId: { exact: availableCameras[currentCameraIndex].deviceId },
-        width: { ideal: 1920 },
-        height: { ideal: 1080 },
-      };
-    }
     return {
       facingMode: { ideal: facingMode }, // 'user' or 'environment'
       width: { ideal: 1920 },
@@ -38,58 +29,32 @@ function Landingpage({ user, onLogout }) {
     };
   };
   
+  const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
 
-const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
 
-    img.onload = () => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
+        const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+        const width = img.width * ratio;
+        const height = img.height * ratio;
 
-      const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
-      const width = img.width * ratio;
-      const height = img.height * ratio;
+        canvas.width = width;
+        canvas.height = height;
 
-      canvas.width = width;
-      canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(blob => {
+          const resizedFile = new File([blob], file.name, { type: "image/jpeg" });
+          resolve(resizedFile);
+        }, "image/jpeg", 0.9); // quality 90%
+      };
 
-      ctx.drawImage(img, 0, 0, width, height);
-      canvas.toBlob(blob => {
-        const resizedFile = new File([blob], file.name, { type: "image/jpeg" });
-        resolve(resizedFile);
-      }, "image/jpeg", 0.9); // quality 90%
-    };
-
-    img.onerror = reject;
-  });
-};
-
-
-  // Enumerate available cameras
-  const getCameras = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      setAvailableCameras(videoDevices);
-      console.log("Available cameras:", videoDevices);
-    } catch (err) {
-      console.error("Error enumerating devices:", err);
-      setError("Unable to detect available cameras: " + err.message);
-    }
+      img.onerror = reject;
+    });
   };
-
-  // Initial setup
-  useEffect(() => {
-    // Check for camera support and enumerate devices
-    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-      getCameras();
-    } else {
-      console.error("MediaDevices API not supported");
-      setError("Your browser doesn't support camera access");
-    }
-  }, []);
 
   const startCamera = async () => {
     try {
@@ -103,23 +68,8 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
     }
   };
   
-  
   const stopCamera = () => {
     setIsCameraActive(false);
-  };
-
-  const switchCamera = () => {
-    if (availableCameras.length > 1) {
-      // If we have multiple cameras, cycle through them
-      const nextCameraIndex = (currentCameraIndex + 1) % availableCameras.length;
-      setCurrentCameraIndex(nextCameraIndex);
-      console.log("Switching to camera index:", nextCameraIndex);
-    } else {
-      // If we don't have specific camera info, toggle between front and back
-      const newFacingMode = facingMode === "user" ? "environment" : "user";
-      setFacingMode(newFacingMode);
-      console.log("Switching facing mode to:", newFacingMode);
-    }
   };
 
   const captureImage = () => {
@@ -227,7 +177,6 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
     setPrediction(null);
     setDiseaseResults(null);
   };
-
 
   // Format the disease information for display
   const formatDiseaseInfo = (info) => {
@@ -357,12 +306,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
                 >
                   Capture
                 </button>
-                <button 
-                  className="action-button" 
-                  onClick={switchCamera}
-                >
-                  Switch Camera
-                </button>
+              
                 <button 
                   className="action-button" 
                   onClick={stopCamera}
@@ -436,7 +380,7 @@ const resizeImage = async (file, maxWidth = 1280, maxHeight = 720) => {
             <p className="error">{error}</p>
             {error.includes("denied") && (
               <p className="small-text">
-                Tip: Check if your browser has permission to access the camera. On iOS, go to Settings &gt; Safari &gt; Camera and set to “Allow”.
+                Tip: Check if your browser has permission to access the camera. On iOS, go to Settings &gt; Safari &gt; Camera and set to "Allow".
               </p>
             )}
             <button 
