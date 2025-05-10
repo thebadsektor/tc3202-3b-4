@@ -113,7 +113,7 @@ Explain the structure of the project directory. Example:
 
 List all the team members involved in the project. Include their roles and responsibilities:
 
-- **[Cantal, Marc Aiton T.]**: Lead Developer, Backend Developer
+- **[Cantal, Marc Airon T.]**: Lead Developer, Backend Developer
 - **[Salabsab, Ridchard Sean]**: Frontend Developer, UI/UX Designer
 - **[Mangalindan, Giro]**:
 - **[Canaling, John Jasper]**: 
