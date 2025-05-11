@@ -139,8 +139,8 @@ Once the app is running:
    - The app will show any detected diseases, a short explanation, and care recommendations.
 
 - Example commands or API calls.
+
 Step 1: Open a New Terminal and Navigate to the Backend Folder
-- Navigate to the backend folder:
    ```bash
    cd backend
    ```
