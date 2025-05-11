@@ -242,21 +242,15 @@ Explain the structure of the project directory. Example:
 
 List all the team members involved in the project. Include their roles and responsibilities:
 
-- **[Cantal, Marc Airon T.]**: Lead Developer, Backend Developer
-- **[Salabsab, Ridchard Sean]**: Frontend Developer, UI/UX Designer
-- **[Mangalindan, Giro]**: Documentation, Grapics
-- **[Canaling, John Jasper]**: Documentation, Research Support
+- **Cantal, Marc Airon T.**: Lead Developer, Backend Developer
+- **Salabsab, Ridchard Sean B.**: Frontend Developer, UI/UX Designer
+- **Mangalindan, Giro B.**: Documentation, Graphics
+- **Canaling, Jasper D.**: Documentation, Research Support
 - **Gerald Villaran**: Course Instructor
 
 ## Project Timeline
 
 Outline the project timeline, including milestones or deliverables. Example:
-
-- **Week 1-2**: Research and project planning.
-- **Week 3-5**: Design and setup.
-- **Week 6-10**: Implementation.
-- **Week 11-12**: Testing and debugging.
-- **Week 13-14**: Final presentation and documentation.
 
 - **Week 1-2**: Research and Project Planning
 Includes initial exploration of datasets and preliminary setup for the machine learning model.
@@ -279,38 +273,38 @@ Completion of project reports, presentation materials, and user documentation.
 ## Changelog
 
 
-### [Version 1.0.0] - 2025-00-00
+### [Version 1.0.0] - 2025-03-12
 Implemented plant identification using a custom-trained model.
 
 Added image upload via the web interface and displayed prediction results.
 
 Enabled classification for common houseplants.
 
-### [Version 1.1.0] - 2025-00-00
+### [Version 1.1.0] - 2025-03-20
 Improved user interface for plant result display.
 
 Updated documentation with setup, usage instructions.
 
-### [Version 1.2.0] - 2025-00-00
+### [Version 1.2.0] - 2025-04-16
 Integrated disease detection using Hugging Face model.
 
 Refactored Flask backend for faster API response and better error handling.
 
-### [Version 1.3.0] - 2025-00-00
+### [Version 1.3.0] - 2025-05-02
 Integrated Gemini 2.0 Flash API for plant descriptions and care tips.
 
 Added dynamic care guides and common issue info per predicted plant/disease.
 
 Enhanced UI to show AI-generated plant care details.
 
-### [Version 1.4.0] - 2025-00-00
+### [Version 1.4.0] - 2025-05-09
 Added user login (basic authentication).
 
 Optimized image preprocessing and model loading on backend.
 
 ## Acknowledgments
 
-[Mr.Gerald Villaran] for guidance and support throughout the development process.
+Mr. Gerald Villaran for guidance and support throughout the development process.
 
 This project was built from [BotaniSnap-AI](https://github.com/thebadsektor/tc3202-3b-4.git), created by [Group 4]. You can view the original repository [here](https://github.com/thebadsektor/tc3202-3b-4.git).
 

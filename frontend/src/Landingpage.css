@@ -115,7 +115,7 @@
 }
 
 .landing-container {
-  background-image: url('D:\updated\tc3202-3b-4\frontend\public\aiii.jpg');
+  background-image: url('./assets/aiii.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -126,7 +126,7 @@
 }
 
 .landing-main {
-  background-image: url('D:\updated\tc3202-3b-4\frontend\public\aiii.jpg');
+  background-image: url('./assets/aiii.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -174,15 +174,15 @@
 }
 
 .camera-preview {
-  width: 50vh;
-  height: 45vh;
+  width: 25vw;
+  height: 505h;
   object-fit: cover;
   transform: scaleX(-1);
 }
 
 .preview-image {
-  height: 45vh;
-  width: 50vh;
+  width: 25vw;
+  height: 55vh;
   object-fit: cover;
   image-rendering: auto;
 }
