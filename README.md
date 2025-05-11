@@ -140,6 +140,7 @@ Once the app is running:
 
 - Example commands or API calls.
 Step 1: Open a New Terminal and Navigate to the Backend Folder
+- Navigate to the backend folder:
    ```bash
    cd backend
    ```
