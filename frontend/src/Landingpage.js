@@ -178,27 +178,32 @@ function Landingpage({ user, onLogout }) {
     setDiseaseResults(null);
   };
 
-  // Format the disease information for display
-  const formatDiseaseInfo = (info) => {
-    if (!info || !info.info) return null;
-    
-    return info.info.split('\n').map((paragraph, index) => (
-      <p key={index} className="plant-info-text">{paragraph}</p>
-    ));
-  };
-
   // Render disease detection results
   const renderDiseaseResults = () => {
     if (!diseaseResults) return null;
-    
+  
     const { prediction, confidence_level, disease_info } = diseaseResults;
-    const confidencePercentage = (confidence_level * 100).toFixed(2);
-    
+
+  
+    if (confidence_level < 70) {
+      return (
+        <div className="prediction-results">
+          <div className="low-confidence-message">
+            <h3>Sorry. I couldn't find this plant. Please Take or Upload another photo</h3>
+            <button 
+              className="action-button" 
+              onClick={resetCapture}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      );
+    }
+  
     return (
       <div className="prediction-results">
-        <h3>Disease Detection Results:</h3>
-        <p>Diagnosis: <strong>{prediction.replace('_', ' ')}</strong></p>
-        <p>Confidence: {confidencePercentage}%</p>
+        <h2 className="text-xl font-bold">Diagnosed Disease: {prediction.replace('_', ' ')}</h2>
         
         {prediction === "Healthy" ? (
           <div className="healthy-message">
@@ -206,20 +211,22 @@ function Landingpage({ user, onLogout }) {
             <p>Continue with proper care and regular monitoring.</p>
           </div>
         ) : (
-          <div className="disease-info-container">
-            <h3>Disease Information:</h3>
-            {disease_info && disease_info.status === "success" ? (
-              <div className="disease-info-content">
-                {formatDiseaseInfo(disease_info)}
-              </div>
-            ) : (
-              <p>No detailed information available for this disease.</p>
-            )}
-          </div>
+          disease_info && disease_info.status === "success" && (
+            <div className="plant-info-container mt-4 p-4 bg-white rounded shadow">
+              <h3 className="text-green-600 font-semibold text-lg mb-2">Disease Information:</h3>
+              <div 
+                className="plant-info-content prose max-w-none"
+                dangerouslySetInnerHTML={{
+                  __html: marked.parse(disease_info.info),
+                }}
+              />
+            </div>
+          )
         )}
       </div>
     );
   };
+  
 
   return (
     <div className="landing-container">

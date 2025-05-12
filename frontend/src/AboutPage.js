@@ -66,12 +66,11 @@ function AboutPage({ user, onLogout }) {
 
           <section>
             <h2>How It Works</h2>
-            <p>
-              Simply upload a photo or use your device's camera to capture an image...
-            </p>
+            <p>Take or upload a photo then press "Identify Plant" in Plant Identification Mode, and in Disease Detection Mode you may perform the same steps, then press the "Detect Disease" button.</p>
+            <p>You can switch modes by clicking the green button. </p>
             <ul>
-              <li><strong>Plant Identification:</strong> Identifies the plant species with details about it.</li>
-              <li><strong>Disease Detection:</strong> Detects common plant diseases and provides information about them.</li>
+              <li><strong>Plant Identification:</strong> Uses an AI model that identifies the plant species with the details about the plant.</li>
+              <li><strong>Disease Detection:</strong> Uses Plant-Disease-Detection-Project from Hugging Face API to detect common plant diseases and provides information about them.</li>
             </ul>
           </section>
 
@@ -90,10 +89,9 @@ function AboutPage({ user, onLogout }) {
           <section>
             <h2>Developed By Group 4</h2>
             <p>Cantal Marc Airon T.</p>
-            <p>Salabsab Sean Richard</p>
-            <p>Mangalindan Giro</p>
-            <p>Engr. Canaling John Jasper Jr.</p>
-            <p>Contact: Sulasok.tv</p>
+            <p>Salabsab, Richard Sean B.</p>
+            <p>Mangalindan, Giro B.</p>
+            <p>Canaling,  Jasper D.</p>
           </section>
         </main>
 
